@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Сборка MUR Simulator в Windows | MUR OpenSource</title>
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/pages/building-mur-simulator.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="MUR OpenSource" />
+  <meta property="og:title" content="Сборка MUR Simulator в Windows" />
+  <meta name="twitter:title" content="Сборка MUR Simulator в Windows" />
+  <meta property="og:url" content="/pages/building-mur-simulator.html" />
+  <meta property="og:description" content="Можно считать это продолжением сборки MUR IDE. Предполагается, что уже имеется Qt, OpenCV и прочее что уже было ранее описано (не забываем аналогично прописать пути для CMake, где это необходимо). ZeroMQ Можно воспользоваться всё тем же vcpkg. А можно склонировать и собрать самостоятельно: git clone https://github.com/zeromq/libzmq …" />
+  <meta name="twitter:description" content="Можно считать это продолжением сборки MUR IDE. Предполагается, что уже имеется Qt, OpenCV и прочее что уже было ранее описано (не забываем аналогично прописать пути для CMake, где это необходимо). ZeroMQ Можно воспользоваться всё тем же vcpkg. А можно склонировать и собрать самостоятельно: git clone https://github.com/zeromq/libzmq …" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m"><img src="/media/mur-logo.png" alt="" />MUR OpenSource</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/pages/projects">Проекты</a>
+              <ol>
+                <li><a href="/pages/elementary-rov">ElementaryROV</a></li>
+                <li><a href="/pages/middle-rov">MiddleROV</a></li>
+                <li><a href="/pages/high-rov">HighROV</a></li>
+                <li><a href="/pages/open-thruster-150">OpenThruster 150</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Инструкции по настройке</a>
+              <ol>
+                <li><a href="/pages/firmware-rpi">Прошивка RPi Compute Module</a></li>
+                <li><a href="/pages/setting-up-midauv">MiddleAUV: настройка и тестирование</a></li>
+                <li><a href="/pages/protocol-mur">MiddleAUV: протокол</a></li>
+                <li><a href="/pages/highrov-router">HighROV: настройка роутера</a></li>
+                <li><a href="/pages/highrov-ota">HighROV: прошивка по WiFi</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Софт</a>
+              <ol>
+                <li><a href="/pages/building-mur-ide">Сборка MUR IDE</a></li>
+                <li><a href="/pages/building-mur-simulator">Сборка MUR Simulator</a></li>
+              </ol>
+            </li>
+            <li><a href="https://github.com/murproject">GitHub</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>Сборка MUR Simulator в Windows</h1>
+<!-- content -->
+<p>Можно считать это продолжением <a href="./building-mur-ide">сборки MUR IDE</a>. Предполагается, что уже имеется Qt, OpenCV и прочее что уже было ранее описано (не забываем аналогично прописать пути для CMake, где это необходимо).</p>
+<section class="section2" id="zeromq"><h2>ZeroMQ</h2>
+<ul>
+<li>Можно воспользоваться всё тем же vcpkg.</li>
+<li>А можно склонировать и собрать самостоятельно:<ul>
+<li><code>git clone https://github.com/zeromq/libzmq</code></li>
+<li><code>cd libzmq; mkdir build; cd build</code></li>
+<li><code>cmake ..; cmake --build .</code></li>
+<li>Не забываем прописать путь для CMake: <code>set(ZeroMQ_DIR "D:/projects/libzmq/build")</code></li>
+</ul>
+</li>
+</ul>
+</section><section class="section2" id="urho3d"><h2>Сборка Urho3D</h2>
+<ul>
+<li>Urho3D придётся собирать самостоятельно.</li>
+<li>Рекомендуется ознакомится с <a href="https://urho3d.github.io/documentation/1.7.1/_building.html">документацией по сборке Urho3D</a></li>
+<li><code>git clone https://github.com/urho3d/Urho3D</code></li>
+<li>Далее нужно запустить CMake и сконфигурировать проект, можно воспользоваться cmake-gui. Параметры сборки:<ul>
+<li><code>URHO3D_PACKAGING=1</code> (самое важное! требуется для загрузки ресурсов из файла)</li>
+<li><code>URHO3D_SAMPLES=0</code> (не собирать примеры)</li>
+<li><code>URHO3D_LUA=0</code> (поддержка скриптов в данном случае не нужна)</li>
+<li><code>URHO3D_ANGELSCRIPT=0</code></li>
+</ul>
+</li>
+<li>Конфигурируем проект, затем собираем.<ul>
+<li>Можно открыть и собрать проект в Visual Studio.</li>
+<li>Или собрать прямо из консоли: <code>cd Urho3D/build; cmake --build .</code></li>
+</ul>
+</li>
+<li>Для сборки симулятора обязательно нужно будет прописать путь к Urho3D:<ul>
+<li><code>set(URHO3D_HOME "D:/projects/Urho3D/build")</code></li>
+</ul>
+</li>
+</ul>
+</section><section class="section2" id="_1"><h2>Сборка симулятора</h2>
+<ul>
+<li>Клонируем проект <a href="https://github.com/murproject/mur_simulator">MUR Simulator</a>.</li>
+<li>Конфигурируем проект и собираем.</li>
+<li>Добавляем недостающие библиотеки Qt (QML здесь не нужен):<ul>
+<li><code>windeployqt.exe "D:\projects\mur_ide\build\simulator.exe"</code></li>
+</ul>
+</li>
+<li>Также копируем недостающие библиотеки OpenCV и ZeroMQ.</li>
+<li>Файл ресурсов <code>simulator.pck</code> (можно найти в папке <code>resources</code>) <strong>должен лежать рядом с собранным бинарником!</strong> Иначе ничего работать не будет.</li>
+</ul>
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>MUR</h3>
+        <ul>
+          <li><a href="https://murproject.com">Проект MUR</a></li>
+          <li><a href="https://robocenter.net/goods/kit/">Аппараты</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Документация</h3>
+        <ul>
+          <li><a href="https://github.com/murproject/mur_ide">MUR IDE</a></li>
+          <li><a href="https://github.com/murproject/mur_simulator">MUR Simulator</a></li>
+        </ul>
+      </div>
+      <div class="m-clearfix-t"></div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Ссылки</h3>
+        <ul>
+          <li><a href="https://github.com/murproject">GitHub</a></li>
+          <li><a href="https://www.youtube.com/channel/UCGRhAtYBi-XZ3U5LgmxXUfQ">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Робоцентр</h3>
+        <ul>
+          <li><a href="https://robocenter.org">Центр развития робототехники</a></li>
+          <li><a href="https://robocenter.net">Центр робототехники</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <!--
+        <div class="robot">
+            <div class="robot-main">
+                <div class="robot-part heart"><div class="back"></div></div>
+                <div class="robot-part shoulder-left"></div>
+                <div class="robot-part shoulder-right"></div>
+                <div class="robot-part arm-left"></div>
+                <div class="robot-part arm-right"></div>
+                <div class="robot-part body"></div>
+            </div>
+            <div class="robot-part head"></div>
+            <div class="robot-part leg-left"></div>
+            <div class="robot-part leg-right"></div>
+        </div>
+        -->
+
+        <a href="https://robocenter.org/"><img src="/media/robocenter-text.png"></a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

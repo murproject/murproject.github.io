@@ -1,0 +1,273 @@
+/* индусский css */
+
+:root {
+    --part-size: 25px;
+/*     --robot-light: #BBB; */
+    --robot-light: #FFF;
+    --robot-dark: #444e5c;
+}
+
+.robot-container {
+  width: 90vw;
+  text-align: center;
+}
+
+.robot {
+  border: 2px solid transparent;
+  margin: auto;
+  margin-top: calc(var(--part-size) * 0.1);
+  margin-bottom: 0.5em;
+  width: calc(var(--part-size) * 3);
+  height: calc(var(--part-size) * 4);
+}
+
+.robot-main {
+  animation-name: start-robot;
+  animation-duration: 3s;
+}
+
+.robot-part {
+  color: var(--robot-dark);
+  width: var(--part-size);
+  height: var(--part-size);
+  /*     background-color: black; */.robot-part.shoulder-left {
+    margin-left: calc(var(--part-size) * 0);
+    margin-top: calc(var(--part-size) * 1);
+  }
+  margin: 0;
+  /*     margin-left: calc(var(--part-size) * 1.25); */
+  position: absolute;
+}
+
+.robot-part::after {
+  background-color: var(--robot-light);
+  content: '';
+  width: 90%;
+  height: 90%;
+  display: block;
+  margin: calc(var(--part-size) * 0.05);
+  position: absolute;
+  /*     opacity: 20%; */
+  top: 0;
+  left: 0;
+
+/*  border-radius: 2px;
+  animation-name: start-radius;
+  animation-duration: 3s;*/
+}
+
+.robot-part.head {
+  margin-left: calc(var(--part-size) * 1);
+  margin-top: calc(var(--part-size) * 0);
+
+  animation-name: start-head;
+  animation-duration: 3s;
+}
+
+.robot-part.heart {
+  margin-left: calc(var(--part-size) * 1);
+  margin-top: calc(var(--part-size) * 1);
+}
+
+.robot-part.heart::before {
+  content: '';
+  width: 90%;
+  height: 90%;
+  display: block;
+  margin: calc(var(--part-size) * 0.05);
+  position: absolute;
+  top: 0;
+  left: 25%;
+  background: none;
+  width: 0%;
+  height: 20%;
+  border-left: calc(var(--part-size) / 5) solid var(--robot-light);
+  border-right: calc(var(--part-size) / 5) solid var(--robot-light);
+  border-top: calc(var(--part-size) / 4.5) solid var(--robot-dark);
+  border-radius: 0 !important;
+
+  animation-name: heartbeat-top;
+  animation-duration: 2s;
+  animation-iteration-count: 7;
+}
+
+.robot-part.heart .back {
+  display: block;
+  margin: calc(var(--part-size) * 0.05);
+  width: calc(var(--part-size) * 0.9);
+  height: calc(var(--part-size) * 0.4);
+  background: var(--robot-light);
+  border-radius: 0 !important;
+}
+
+.robot-part.heart::after {
+  background: none;
+  width: 0;
+  height: 0;
+  top: calc(var(--part-size) / 2.5);
+  border-left: calc(var(--part-size) / 2.2) solid transparent;
+  border-right: calc(var(--part-size) / 2.2) solid transparent;
+  border-top: calc(var(--part-size) / 2.1) solid var(--robot-light);
+  border-radius: 0 !important;
+
+  animation-name: heartbeat-bottom;
+  animation-duration: 2s;
+  animation-iteration-count: 7;
+}
+
+.robot-part.shoulder-left {
+  margin-left: calc(var(--part-size) * 0);
+  margin-top: calc(var(--part-size) * 1);
+}
+
+.robot-part.shoulder-right {
+  margin-left: calc(var(--part-size) * 2);
+  margin-top: calc(var(--part-size) * 1);
+}
+
+.robot-part.body {
+  margin-left: calc(var(--part-size) * 1);
+  margin-top: calc(var(--part-size) * 2);
+}
+
+.robot-part.arm-left {
+  margin-left: calc(var(--part-size) * 0);
+  margin-top: calc(var(--part-size) * 2);
+}
+
+.robot-part.arm-left::after {
+  width: 0;
+  height: 0;
+  border-bottom: calc(var(--part-size) * 0.9) solid var(--robot-dark);
+  border-left: calc(var(--part-size) * 0.9)  solid transparent;
+}
+
+.robot-part.arm-right {
+  margin-left: calc(var(--part-size) * 2);
+  margin-top: calc(var(--part-size) * 2);
+}
+
+.robot-part.arm-right::after {
+  width: 0;
+  height: 0;
+  border-bottom: calc(var(--part-size) * 0.9) solid var(--robot-dark);
+  border-right: calc(var(--part-size) * 0.9)  solid transparent;
+}
+
+.robot-part.leg-left {
+  margin-left: calc(var(--part-size) * 0);
+  margin-top: calc(var(--part-size) * 3);
+
+  animation-name: start-legs;
+  animation-duration: 3s;
+}
+
+.robot-part.leg-left::after {
+  width: 0;
+  height: 0;
+  background: none;
+  border-top: calc(var(--part-size) * 0.9) solid transparent;
+  border-right: calc(var(--part-size) * 0.9)  solid var(--robot-light);
+  border-bottom-right-radius:0px !important;
+}
+
+.robot-part.leg-right {
+  margin-left: calc(var(--part-size) * 2);
+  margin-top: calc(var(--part-size) * 3);
+
+  animation-name: start-legs;
+  animation-duration: 3s;
+}
+
+.robot-part.leg-right::after {
+  width: 0;
+  height: 0;
+  background: none;
+  border-top: calc(var(--part-size) * 0.9) solid transparent;
+  border-left: calc(var(--part-size) * 0.9)  solid var(--robot-light);
+  border-bottom-left-radius:0px !important;
+}
+
+/* индусские анимации */
+
+@keyframes heartbeat-bottom {
+  0% {
+    border-top: calc(var(--part-size) / 2.1) solid var(--robot-light);
+  }
+  25% {
+    border-top: calc(var(--part-size) / 2.1) solid var(--robot-light);
+  }
+  50% {
+    border-top: calc(var(--part-size) / 2.6) solid var(--robot-light);
+  }
+  100% {
+    border-top: calc(var(--part-size) / 2.1) solid var(--robot-light);
+  }
+}
+
+@keyframes heartbeat-top {
+  0% {
+    border-top: calc(var(--part-size) / 4.5) solid var(--robot-dark);
+  }
+  35% {
+    border-top: calc(var(--part-size) / 4.5) solid var(--robot-dark);
+  }
+  65% {
+    border-top: calc(var(--part-size) / 7.5) solid var(--robot-dark);
+  }
+  100% {
+    border-top: calc(var(--part-size) / 4.5) solid var(--robot-dark);
+  }
+}
+
+
+@keyframes start-robot {
+  0% {
+    margin-top: calc(var(--part-size) * 0.95);
+  }
+  50% {
+    margin-top: calc(var(--part-size) * 0.95);
+  }
+  100% {
+    margin-top: calc(var(--part-size) * 0);
+  }
+}
+
+@keyframes start-legs {
+  0% {
+    margin-top: calc(var(--part-size) * 2);
+  }
+  50% {
+    margin-top: calc(var(--part-size) * 2);
+  }
+  100% {
+    margin-top: calc(var(--part-size) * 3);
+  }
+}
+
+@keyframes start-head {
+  0% {
+    margin-top: calc(var(--part-size) * 1);
+  }
+  50% {
+    margin-top: calc(var(--part-size) * 1);
+  }
+  100% {
+    margin-top: calc(var(--part-size) * 0);
+  }
+}
+
+/*@keyframes start-radius {
+  0% {
+    border-radius: 0px;
+  }
+  50% {
+    border-radius: 0px;
+  }
+  100% {
+    border-radius: 2px;
+  }
+}*/
+
+
+

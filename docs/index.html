@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Главная | MUR OpenSource</title>
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="MUR OpenSource" />
+  <meta property="og:title" content="Главная" />
+  <meta name="twitter:title" content="Главная" />
+  <meta property="og:url" content="/" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m"><img src="/media/mur-logo.png" alt="" />MUR OpenSource</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/pages/projects">Проекты</a>
+              <ol>
+                <li><a href="/pages/elementary-rov">ElementaryROV</a></li>
+                <li><a href="/pages/middle-rov">MiddleROV</a></li>
+                <li><a href="/pages/high-rov">HighROV</a></li>
+                <li><a href="/pages/open-thruster-150">OpenThruster 150</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Инструкции по настройке</a>
+              <ol>
+                <li><a href="/pages/firmware-rpi">Прошивка RPi Compute Module</a></li>
+                <li><a href="/pages/setting-up-midauv">MiddleAUV: настройка и тестирование</a></li>
+                <li><a href="/pages/protocol-mur">MiddleAUV: протокол</a></li>
+                <li><a href="/pages/highrov-router">HighROV: настройка роутера</a></li>
+                <li><a href="/pages/highrov-ota">HighROV: прошивка по WiFi</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Софт</a>
+              <ol>
+                <li><a href="/pages/building-mur-ide">Сборка MUR IDE</a></li>
+                <li><a href="/pages/building-mur-simulator">Сборка MUR Simulator</a></li>
+              </ol>
+            </li>
+            <li><a href="https://github.com/murproject">GitHub</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div id="m-landing-image">
+    <div id="m-landing-cover">
+      <div class="m-container">
+<!-- landing -->
+<h1>Свободные проекты Центра Робототехники</h1>
+
+<main class="m-container">
+    <div class="m-row">
+        <h2 class="center">Среда разработки MUR IDE</h2>
+
+        <div class="m-col-m-6">
+            <div class="m-block m-default landing-box" style="background-image: url(/media/landing/ide-landing.png);">
+                <div>
+                    <h3>MUR IDE</h3>
+                    <p>
+                        Позволяет программировать на языке <b>Python</b>
+                        аппараты <b>MiddleAUV и MiddleUSV</b>, а также
+                        вирутальный аппарат в симуляторе.
+                    </p>
+                </div>
+                <p>
+                    <a href="https://murproject.com/documents/17/murIDE.exe">Загрузить</a> | <a href="https://github.com/murproject/mur_ide">Исходный код</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="m-col-m-6">
+            <div href="#" class="m-block m-default landing-box" style="background-image: url(/media/landing/simulator-landing.png);">
+                <div>
+                    <h3>MUR Simulator</h3>
+                    <p>
+                        Симулятор подводной робототехники.
+                    </p>
+                </div>
+                <p>
+                    <a href="https://murproject.com/documents/17/murIDE.exe">Загрузить <i>(входит в MUR IDE)</i></a> | <a href="https://github.com/murproject/mur_simulator">Исходный код</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-row">
+        <h2>ПО для аппаратов</h2>
+
+        <a href="https://robocenter.net/goods/kit/elementaryrov/"><h3>ElementaryROV firmware</h3></a>
+        <ul>
+            <!-- <li><a href="https://github.com/murproject/ElementaryROVOnBoard">ElementaryROVOnBoard</a> – прошивка <b>для аппарата</b> ElementaryROV.</li> -->
+            <li><a href="https://github.com/murproject/ElementaryROV">ElementaryROV</a> – прошивка <b>для пульта</b> ElementaryROV.</li>
+        </ul>
+
+        <a href="https://robocenter.net/goods/kit/middlerov/"><h3>MiddleROV</h3></a>
+        <ul>
+            <li><a href="https://github.com/murproject/MiddleRov2OnBoard">MiddleRov2OnBoard</a> – прошивка <b>для аппарата</b> MiddleROV.</li>
+            <li><a href="https://github.com/murproject/MiddleROV2Surface">MiddleROV2Surface</a> – прошивка <b>пульта</b> для MiddleROV.</li>
+        </ul>
+
+        <a href="https://robocenter.net/goods/kit/highrov/"><h3>HighROV</h3></a>
+        <ul>
+            <li><a href="https://github.com/murproject/HighROV_firmware">HighROV firmware</a> – прошивка <b>для аппарата</b> HighROV.</li>
+            <li><a href="https://github.com/murproject/RovUI">RovUI</a> – десктопное <b>приложение-пульт</b> для HighROV.</li>
+        </ul>
+
+    </div>
+</main>
+<!-- /landing -->
+      </div>
+    </div>
+  </div>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>MUR</h3>
+        <ul>
+          <li><a href="https://murproject.com">Проект MUR</a></li>
+          <li><a href="https://robocenter.net/goods/kit/">Аппараты</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Документация</h3>
+        <ul>
+          <li><a href="https://github.com/murproject/mur_ide">MUR IDE</a></li>
+          <li><a href="https://github.com/murproject/mur_simulator">MUR Simulator</a></li>
+        </ul>
+      </div>
+      <div class="m-clearfix-t"></div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Ссылки</h3>
+        <ul>
+          <li><a href="https://github.com/murproject">GitHub</a></li>
+          <li><a href="https://www.youtube.com/channel/UCGRhAtYBi-XZ3U5LgmxXUfQ">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Робоцентр</h3>
+        <ul>
+          <li><a href="https://robocenter.org">Центр развития робототехники</a></li>
+          <li><a href="https://robocenter.net">Центр робототехники</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <!--
+        <div class="robot">
+            <div class="robot-main">
+                <div class="robot-part heart"><div class="back"></div></div>
+                <div class="robot-part shoulder-left"></div>
+                <div class="robot-part shoulder-right"></div>
+                <div class="robot-part arm-left"></div>
+                <div class="robot-part arm-right"></div>
+                <div class="robot-part body"></div>
+            </div>
+            <div class="robot-part head"></div>
+            <div class="robot-part leg-left"></div>
+            <div class="robot-part leg-right"></div>
+        </div>
+        -->
+
+        <a href="https://robocenter.org/"><img src="/media/robocenter-text.png"></a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

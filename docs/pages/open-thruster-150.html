@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>OpenThruster 150 | MUR OpenSource</title>
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/pages/open-thruster-150.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="MUR OpenSource" />
+  <meta property="og:title" content="OpenThruster 150" />
+  <meta name="twitter:title" content="OpenThruster 150" />
+  <meta property="og:url" content="/pages/open-thruster-150.html" />
+  <meta property="og:description" content="Инструкция по сборке движителя (30 шагов) Содержание Комплектующие и материалы Изоляция мотора Покрытие воском Сборка движителя Комплектующие и материалы Для сборки подводного движителя OpenThruster 150 потребуется: Мотор (57х27.6 мм, 9800 об/мин, 12В 0.16А, пример); воск (лучше пчелиный, например, такой, примерно 7 грамм); два провода (AWG 16/18 …" />
+  <meta name="twitter:description" content="Инструкция по сборке движителя (30 шагов) Содержание Комплектующие и материалы Изоляция мотора Покрытие воском Сборка движителя Комплектующие и материалы Для сборки подводного движителя OpenThruster 150 потребуется: Мотор (57х27.6 мм, 9800 об/мин, 12В 0.16А, пример); воск (лучше пчелиный, например, такой, примерно 7 грамм); два провода (AWG 16/18 …" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m"><img src="/media/mur-logo.png" alt="" />MUR OpenSource</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/pages/projects">Проекты</a>
+              <ol>
+                <li><a href="/pages/elementary-rov">ElementaryROV</a></li>
+                <li><a href="/pages/middle-rov">MiddleROV</a></li>
+                <li><a href="/pages/high-rov">HighROV</a></li>
+                <li><a href="/pages/open-thruster-150" id="m-navbar-current">OpenThruster 150</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Инструкции по настройке</a>
+              <ol>
+                <li><a href="/pages/firmware-rpi">Прошивка RPi Compute Module</a></li>
+                <li><a href="/pages/setting-up-midauv">MiddleAUV: настройка и тестирование</a></li>
+                <li><a href="/pages/protocol-mur">MiddleAUV: протокол</a></li>
+                <li><a href="/pages/highrov-router">HighROV: настройка роутера</a></li>
+                <li><a href="/pages/highrov-ota">HighROV: прошивка по WiFi</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Софт</a>
+              <ol>
+                <li><a href="/pages/building-mur-ide">Сборка MUR IDE</a></li>
+                <li><a href="/pages/building-mur-simulator">Сборка MUR Simulator</a></li>
+              </ol>
+            </li>
+            <li><a href="https://github.com/murproject">GitHub</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>OpenThruster 150</h1>
+<!-- content -->
+<figure>
+<img src="/media/open-thruster-150/ot.jpg" style="width: 50%" />
+<figcaption>Инструкция по сборке движителя (30 шагов)</figcaption>
+</figure>
+<aside class="contents" id="id1">
+<h3>Содержание</h3>
+<ul>
+<li><a href="#id2" id="id9">Комплектующие и материалы</a></li>
+<li><a href="#id6" id="id10">Изоляция мотора</a></li>
+<li><a href="#id7" id="id11">Покрытие воском</a></li>
+<li><a href="#id8" id="id12">Сборка движителя</a></li>
+</ul>
+</aside>
+<section id="id2">
+<h2><a href="#id9">Комплектующие и материалы</a></h2>
+<p>Для сборки подводного движителя OpenThruster 150 потребуется:</p>
+<ul>
+<li>Мотор (57х27.6 мм, 9800 об/мин, 12В 0.16А,
+<a href="https://item.taobao.com/item.htm?id=547293980391">пример</a>);</li>
+<li>воск (лучше пчелиный, например, <a href="https://vk-cc.com/CgpPBw">такой</a>,
+примерно 7 грамм);</li>
+<li>два провода (AWG 16/18, длина подбирается по необходимости);</li>
+<li>изолента;</li>
+<li>напечатанные детали корпуса: насадка, винт, крышка и корпус (PLA, заполнение 30%,
+<a href="https://github.com/murproject/OpenThruster150">ссылка для скачивания</a>).</li>
+</ul>
+<p>Также понадобятся нож/ножницы, паяльник, припой, цианакрилатный
+(супер) клей, наждачная бумага или надфиль.</p>
+<figure>
+<img src="/media/open-thruster-150/ot-1_2.jpg" />
+<figcaption>Комплектующие и материалы для сборки движителя</figcaption>
+</figure>
+</section>
+<section id="id6">
+<h2><a href="#id10">Изоляция мотора</a></h2>
+<p>Перед началом работы по изоляции, необходимо обезжирить поверхность
+мотора, например, спиртом или обезжиривателем.</p>
+<p>Маленькими отрезками изоленты нужно закрыть отверстия верхнего торца
+мотора. Каждый из отрезков должен полностью (не частично) закрывать
+однодва отверстия. Кусочки следует клеить внахлёст (Шаг 1). Вторым слоем
+нужно перекрыть стыки изоленты первого слоя, а также покрыть как можно
+больше корпуса (Шаг 2).</p>
+<figure class="inline-fig">
+<img src="/media/open-thruster-150/ot-2_1.jpg" />
+<figcaption>Шаг 1</figcaption>
+</figure>
+<figure class="inline-fig">
+<img src="/media/open-thruster-150/ot-2_2.jpg" />
+<figcaption>Шаг 2</figcaption>
+</figure>
+<p>Затем нужно натянуть торчащую изоленту. Делать это нужно аккуратно,
+чтобы не сдвинуть слои. Этот шаг нужен, чтобы убрать складки в месте
+скругления корпуса мотора (Шаг 3). Затем обрезаем лишнее так, как показано в
+шаге 4.</p>
+<figure class="inline-fig">
+<img src="/media/open-thruster-150/ot-2_3.jpg" />
+<figcaption>Шаг 3</figcaption>
+</figure>
+<figure class="inline-fig">
+<img src="/media/open-thruster-150/ot-2_4.jpg" />
+<figcaption>Шаг 4</figcaption>
+</figure>
+<p>Далее наносим изоленту на боковую поверхность мотора (Шаг 5), после
+четверти оборота начинаем натягивать изоленту так, чтобы она покрывала торец
+мотора. Кусок, который был не натянут нужно отрезать (Шаг 6). Продолжаем
+натягивать изоленту ещё 2 оборота (Шаг 7).</p>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-3_1.jpg" />
+<figcaption>Шаг 5</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-3_2.jpg" />
+<figcaption>Шаг 6</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-3_3.jpg" />
+<figcaption>Шаг 7</figcaption>
+</figure>
+<p>Для удобства при оклеивании нижнего торца моторчика контакты мотора
+можно отогнуть. Правила такие же, как для верхнего торца, однако в месте
+контактов изоленту нужно подрезать (Шаги 8-13).</p>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-3_4.jpg" />
+<figcaption>Шаг 8</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-3_5.jpg" />
+<figcaption>Шаг 9</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-3_6.jpg" />
+<figcaption>Шаг 10</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-3_7.jpg" />
+<figcaption>Шаг 11</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-3_8.jpg" />
+<figcaption>Шаг 12</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-3_9.jpg" />
+<figcaption>Шаг 13</figcaption>
+</figure>
+<p>В завершении нужно подрезать изоленту возле контактов, чтобы она не
+задиралась, и приклеить её (Шаг 15). Последними несколькими оборотами
+изоленты закрепляем предыдущие намотки, а также не оклеенную боковую
+поверхность мотора.</p>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-4_1.jpg" />
+<figcaption>Шаг 14</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-4_2.jpg" />
+<figcaption>Шаг 15</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-4_3.jpg" />
+<figcaption>Шаг 16</figcaption>
+</figure>
+</section>
+<section id="id7">
+<h2><a href="#id11">Покрытие воском</a></h2>
+<p>Разминаем воск (нагреваем его руками), чтобы он стал мягким (Шаг 17).
+Формируем толстый «блинчик» и нанизываем его на мотор (Шаг 18).
+Максимально сильно вдавливаем его в верхний торец и начинаем растягивать по
+стенкам моторчика (Шаг 19). Слой должен быть тонким, но без пробоев (если
+они, вдруг появятся, тщательно замажьте их кусочком воска).</p>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-4_4.jpg" />
+<figcaption>Шаг 17</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-4_5.jpg" />
+<figcaption>Шаг 18</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-4_6.jpg" />
+<figcaption>Шаг 19</figcaption>
+</figure>
+<p>Затем припаиваем провода и залепляем воском, предварительно размяв его,
+нижний торец мотора (Шаги 20-22).</p>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-4_7.jpg" />
+<figcaption>Шаг 20</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-4_8.jpg" />
+<figcaption>Шаг 21</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-4_9.jpg" />
+<figcaption>Шаг 22</figcaption>
+</figure>
+<p>Вставляем мотор в корпус. Он должен заходить плотно (Шаг 23). Если мотор
+застревает, то нужно его вытащить и размять воск в месте, где он мешает входу
+мотора в корпус, сделав толщину воска меньше. Оставшееся пространство
+сверху нужно заполнить воском (Шаг 24).</p>
+<figure class="inline-fig">
+<img src="/media/open-thruster-150/ot-5_1.jpg" />
+<figcaption>Шаг 23</figcaption>
+</figure>
+<figure class="inline-fig">
+<img src="/media/open-thruster-150/ot-5_2.jpg" />
+<figcaption>Шаг 24</figcaption>
+</figure>
+</section>
+<section id="id8">
+<h2><a href="#id12">Сборка движителя</a></h2>
+<p>Далее укладываем в канал провода и надеваем крышку (Шаги 25-26).
+Приклеиваем винт на цианакрилатный (супер) клей (Шаг 27). Рекомендуем
+перед приклеиванием отшлифовать винт наждачной бумагой или надфилем,
+чтобы лопасти стали гладкими.</p>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-5_3.jpg" />
+<figcaption>Шаг 25</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-5_4.jpg" />
+<figcaption>Шаг 26</figcaption>
+</figure>
+<figure class="inline-fig-3">
+<img src="/media/open-thruster-150/ot-5_5.jpg" />
+<figcaption>Шаг 27</figcaption>
+</figure>
+<p>Запрессовываем гайки в насадку (Шаги 28-29).</p>
+<figure class="inline-fig">
+<img src="/media/open-thruster-150/ot-5_6.jpg" />
+<figcaption>Шаг 28</figcaption>
+</figure>
+<figure class="inline-fig">
+<img src="/media/open-thruster-150/ot-5_7.jpg" />
+<figcaption>Шаг 29</figcaption>
+</figure>
+<p>Вставляем корпус в насадку до щелчка (Шаг 30). Двигатель готов.</p>
+<figure>
+<img src="/media/open-thruster-150/ot-6_1.jpg" />
+<figcaption>Шаг 30</figcaption>
+</figure>
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>MUR</h3>
+        <ul>
+          <li><a href="https://murproject.com">Проект MUR</a></li>
+          <li><a href="https://robocenter.net/goods/kit/">Аппараты</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Документация</h3>
+        <ul>
+          <li><a href="https://github.com/murproject/mur_ide">MUR IDE</a></li>
+          <li><a href="https://github.com/murproject/mur_simulator">MUR Simulator</a></li>
+        </ul>
+      </div>
+      <div class="m-clearfix-t"></div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Ссылки</h3>
+        <ul>
+          <li><a href="https://github.com/murproject">GitHub</a></li>
+          <li><a href="https://www.youtube.com/channel/UCGRhAtYBi-XZ3U5LgmxXUfQ">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Робоцентр</h3>
+        <ul>
+          <li><a href="https://robocenter.org">Центр развития робототехники</a></li>
+          <li><a href="https://robocenter.net">Центр робототехники</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <!--
+        <div class="robot">
+            <div class="robot-main">
+                <div class="robot-part heart"><div class="back"></div></div>
+                <div class="robot-part shoulder-left"></div>
+                <div class="robot-part shoulder-right"></div>
+                <div class="robot-part arm-left"></div>
+                <div class="robot-part arm-right"></div>
+                <div class="robot-part body"></div>
+            </div>
+            <div class="robot-part head"></div>
+            <div class="robot-part leg-left"></div>
+            <div class="robot-part leg-right"></div>
+        </div>
+        -->
+
+        <a href="https://robocenter.org/"><img src="/media/robocenter-text.png"></a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

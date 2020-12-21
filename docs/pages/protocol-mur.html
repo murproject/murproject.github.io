@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Протокол управления MiddleAUV и MiddleUSV | MUR OpenSource</title>
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/pages/protocol-mur.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="MUR OpenSource" />
+  <meta property="og:title" content="Протокол управления MiddleAUV и MiddleUSV" />
+  <meta name="twitter:title" content="Протокол управления MiddleAUV и MiddleUSV" />
+  <meta property="og:url" content="/pages/protocol-mur.html" />
+  <meta property="og:description" content="Общие принципы Виды исходящих пакетов (управление аппаратом) run - запуск скрипта stop - остановка скрипта remote - включить режим телеуправления stop_remote - выключить режим телеуправления thrust - телеуправление: задать тягу движкам remote_control - телеуправление: задать оси и регуляторы Виды входящих пакетов (информация с аппарата) telemetry - телеметрия output - вывод в консоли Видео с камер (GStreamer) Лучшим источником …" />
+  <meta name="twitter:description" content="Общие принципы Виды исходящих пакетов (управление аппаратом) run - запуск скрипта stop - остановка скрипта remote - включить режим телеуправления stop_remote - выключить режим телеуправления thrust - телеуправление: задать тягу движкам remote_control - телеуправление: задать оси и регуляторы Виды входящих пакетов (информация с аппарата) telemetry - телеметрия output - вывод в консоли Видео с камер (GStreamer) Лучшим источником …" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m"><img src="/media/mur-logo.png" alt="" />MUR OpenSource</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/pages/projects">Проекты</a>
+              <ol>
+                <li><a href="/pages/elementary-rov">ElementaryROV</a></li>
+                <li><a href="/pages/middle-rov">MiddleROV</a></li>
+                <li><a href="/pages/high-rov">HighROV</a></li>
+                <li><a href="/pages/open-thruster-150">OpenThruster 150</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Инструкции по настройке</a>
+              <ol>
+                <li><a href="/pages/firmware-rpi">Прошивка RPi Compute Module</a></li>
+                <li><a href="/pages/setting-up-midauv">MiddleAUV: настройка и тестирование</a></li>
+                <li><a href="/pages/protocol-mur" id="m-navbar-current">MiddleAUV: протокол</a></li>
+                <li><a href="/pages/highrov-router">HighROV: настройка роутера</a></li>
+                <li><a href="/pages/highrov-ota">HighROV: прошивка по WiFi</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Софт</a>
+              <ol>
+                <li><a href="/pages/building-mur-ide">Сборка MUR IDE</a></li>
+                <li><a href="/pages/building-mur-simulator">Сборка MUR Simulator</a></li>
+              </ol>
+            </li>
+            <li><a href="https://github.com/murproject">GitHub</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>Протокол управления MiddleAUV и MiddleUSV</h1>
+<!-- content -->
+<div class="toc">
+<ul>
+<li><a href="#_1">Общие принципы</a></li>
+<li><a href="#_2">Виды исходящих пакетов (управление аппаратом)</a><ul>
+<li><a href="#run-">run - запуск скрипта</a></li>
+<li><a href="#stop-">stop - остановка скрипта</a></li>
+<li><a href="#remote-">remote - включить режим телеуправления</a></li>
+<li><a href="#stop_remote-">stop_remote - выключить режим телеуправления</a></li>
+<li><a href="#thrust-">thrust - телеуправление: задать тягу движкам</a></li>
+<li><a href="#remote_control-">remote_control - телеуправление: задать оси и регуляторы</a></li>
+</ul>
+</li>
+<li><a href="#_3">Виды входящих пакетов (информация с аппарата)</a><ul>
+<li><a href="#telemetry-">telemetry - телеметрия</a></li>
+<li><a href="#output-">output - вывод в консоли</a></li>
+</ul>
+</li>
+<li><a href="#gstreamer">Видео с камер (GStreamer)</a></li>
+</ul>
+</div>
+<p>Лучшим источником информации на эту тему остаются исходники.</p>
+<section class="section1" id="_1"><h1>Общие принципы</h1>
+<p>Приложение (например, MUR IDE) подключается к аппарату (как правило IP-адрес 10.3.141.1) по протоколу WebSocket, порт 2090. При открытом подключении, аппарат будет периодически отсылать телеметрию.</p>
+<p>Тип сообщения задаётся полем <code>type</code>, например: <code>{"type": "remote"}</code></p>
+</section><section class="section1" id="_2"><h1>Виды исходящих пакетов (управление аппаратом)</h1>
+<section class="section2" id="run-"><h2><code>run</code> - запуск скрипта</h2>
+<div class="highlight"><pre><span></span><code><span class="c">type: &#39;run&#39;,</span>
+<span class="c">filename: &quot;имя файла&quot;,</span>
+<span class="c">content: &quot;закодированный в Base64 скрипт&quot;</span>
+</code></pre></div>
+
+</section><section class="section2" id="stop-"><h2><code>stop</code> - остановка скрипта</h2>
+<div class="highlight"><pre><span></span><code><span class="c">type: &#39;stop&#39;</span>
+</code></pre></div>
+
+</section><section class="section2" id="remote-"><h2><code>remote</code> - включить режим телеуправления</h2>
+<div class="highlight"><pre><span></span><code><span class="c">type: &#39;remote&#39;</span>
+</code></pre></div>
+
+<p>В режиме телеуправления также открываются видеопотоки.
+Передача видео идёт другим способом.</p>
+</section><section class="section2" id="stop_remote-"><h2><code>stop_remote</code> - выключить режим телеуправления</h2>
+<div class="highlight"><pre><span></span><code><span class="c">type: &#39;stop_remote&#39;</span>
+</code></pre></div>
+
+<p>Иногда не срабатывает из-за того, что видеопотоки забивают WiFi-сеть.</p>
+</section><section class="section2" id="thrust-"><h2><code>thrust</code> - телеуправление: задать тягу движкам</h2>
+<p>Используется в режиме телеуправления, если нет регуляторов (полностью ручное упарвление)</p>
+<div class="highlight"><pre><span></span><code><span class="c">type: &#39;thrust&#39;,</span>
+<span class="c">power: [</span>
+<span class="c">        firstUpwardMotor,</span>
+<span class="c">        firstForwardMotor,</span>
+<span class="c">        secondForwardMotor,</span>
+<span class="c">        secondUpwardMotor,</span>
+<span class="c">        0,</span>
+<span class="c">        0,</span>
+<span class="c">        0,</span>
+<span class="c">        0,</span>
+<span class="c">        0</span>
+<span class="c">    ]</span>
+</code></pre></div>
+
+</section><section class="section2" id="remote_control-"><h2><code>remote_control</code> - телеуправление: задать оси и регуляторы</h2>
+<p>Полуавтоматическое управление с регуляторами по курсу и глубине</p>
+<div class="highlight"><pre><span></span><code><span class="c">type: &#39;remote_control&#39;,</span>
+<span class="c">axes: [</span>
+<span class="c">        x,</span>
+<span class="c">        y,</span>
+<span class="c">        z,</span>
+<span class="c">        0</span>
+<span class="c">    ],</span>
+<span class="c">yaw: true,</span>
+<span class="c">depth: false</span>
+</code></pre></div>
+
+</section></section><section class="section1" id="_3"><h1>Виды входящих пакетов (информация с аппарата)</h1>
+<section class="section2" id="telemetry-"><h2><code>telemetry</code> - телеметрия</h2>
+<div class="highlight"><pre><span></span><code><span class="n">vehicle_type</span><span class="p">:</span>
+            <span class="o">-</span> <span class="err">он</span> <span class="err">либо</span> <span class="err">отсутствует</span> <span class="p">(</span><span class="err">значит</span> <span class="n">AUV</span><span class="p">)</span>
+            <span class="o">-</span> <span class="err">либо</span> <span class="n">USV</span> <span class="err">для</span> <span class="err">лодки</span>
+
+<span class="n">running</span>     <span class="o">-</span> <span class="err">выполняет</span> <span class="err">скрипт</span>
+<span class="n">remote</span>      <span class="o">-</span> <span class="err">режим</span> <span class="err">телеуправления</span>
+<span class="n">mission</span>     <span class="o">-</span> <span class="n">mission</span><span class="p">,</span> <span class="err">это</span> <span class="err">для</span> <span class="err">лодки</span>
+
+<span class="n">yaw</span>         <span class="o">-</span> <span class="err">навигационно</span><span class="o">-</span><span class="err">пилотажный</span> <span class="err">датчик</span>
+<span class="n">pitch</span>
+<span class="n">roll</span>
+
+<span class="n">battery</span>
+<span class="n">temperature</span>
+
+<span class="n">gps_satellites</span>  <span class="o">-</span> <span class="n">GPS</span><span class="p">,</span> <span class="err">только</span> <span class="err">на</span> <span class="n">MiddleUSV</span>
+<span class="n">gps_lng</span>
+<span class="n">gps_lat</span>
+<span class="n">gps_alt</span>
+<span class="n">gps_speed</span>
+</code></pre></div>
+
+</section><section class="section2" id="output-"><h2><code>output</code> - вывод в консоли</h2>
+<div class="highlight"><pre><span></span><code><span class="err">stdout, stderr - соответствующий вывод из консоли.</span>
+</code></pre></div>
+
+</section></section><section class="section1" id="gstreamer"><h1>Видео с камер (<a href="https://gstreamer.freedesktop.org">GStreamer</a>)</h1>
+<p>Видео передается через GStreamer pipeline на тот же IP, который подключился по WebSocket. Видео кодируется в JPEG, заворачивается в RTP и передаётся по UDP, порты <code>5000</code> и <code>5001</code> на две камеры.</p>
+<p>Чтобы открыть видеопоток в VLC (или для записи) можно сделать так: создать SDP-файл (например, <code>mur-camera0.sdp</code>) со следующим содержанием, который можно открыть в VLC:</p>
+<div class="highlight"><pre><span></span><code><span class="err">c=IN IP4 127.0.0.1</span>
+<span class="err">m=video 5000 RTP/AVP 26</span>
+<span class="err">a=rtpmap:26 JPEG/90000</span>
+</code></pre></div>
+
+<p>Если нужно в целях отладки симулировать видеопоток с аппарата без него (т.е. локально запустить аналогичный видеопоток, который можно посмотреть в MUR IDE), то можно воспользоваться такой командой:</p>
+<div class="highlight"><pre><span></span><code><span class="err">gst-launch-1.0 -v filesrc location=video.mp4 ! decodebin ! jpegenc ! rtpjpegpay ! udpsink host=0.0.0.0 port=5000</span>
+</code></pre></div>
+
+<p>Выдернуть один кадр в JPEG-файл:</p>
+<div class="highlight"><pre><span></span><code><span class="err">gst-launch-1.0 udpsrc port=5000 ! application/x-rtp,media=video,payload=26,clock-rate=90000,encoding-name=JPEG,framerate=1/1 ! rtpjpegdepay ! multifilesink location=&quot;img.jpg&quot;</span>
+</code></pre></div>
+
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>MUR</h3>
+        <ul>
+          <li><a href="https://murproject.com">Проект MUR</a></li>
+          <li><a href="https://robocenter.net/goods/kit/">Аппараты</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Документация</h3>
+        <ul>
+          <li><a href="https://github.com/murproject/mur_ide">MUR IDE</a></li>
+          <li><a href="https://github.com/murproject/mur_simulator">MUR Simulator</a></li>
+        </ul>
+      </div>
+      <div class="m-clearfix-t"></div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Ссылки</h3>
+        <ul>
+          <li><a href="https://github.com/murproject">GitHub</a></li>
+          <li><a href="https://www.youtube.com/channel/UCGRhAtYBi-XZ3U5LgmxXUfQ">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Робоцентр</h3>
+        <ul>
+          <li><a href="https://robocenter.org">Центр развития робототехники</a></li>
+          <li><a href="https://robocenter.net">Центр робототехники</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <!--
+        <div class="robot">
+            <div class="robot-main">
+                <div class="robot-part heart"><div class="back"></div></div>
+                <div class="robot-part shoulder-left"></div>
+                <div class="robot-part shoulder-right"></div>
+                <div class="robot-part arm-left"></div>
+                <div class="robot-part arm-right"></div>
+                <div class="robot-part body"></div>
+            </div>
+            <div class="robot-part head"></div>
+            <div class="robot-part leg-left"></div>
+            <div class="robot-part leg-right"></div>
+        </div>
+        -->
+
+        <a href="https://robocenter.org/"><img src="/media/robocenter-text.png"></a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

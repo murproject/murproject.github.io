@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Настройка роутера для HighROV | MUR OpenSource</title>
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/pages/highrov-router.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="MUR OpenSource" />
+  <meta property="og:title" content="Настройка роутера для HighROV" />
+  <meta name="twitter:title" content="Настройка роутера для HighROV" />
+  <meta property="og:url" content="/pages/highrov-router.html" />
+  <meta property="og:description" content="В наборе HighROV имеется роутер, который раздаёт WiFi-сеть. Также через кабель к нему подключается основная плата. 1. Быстрая настройка Подключаем роутер к компьютеру через Ethernet-кабель. Заходим в панель по IP: 192.168.1.1. При первом включении роутера будет предложена быстрая настройка сети. Задаём параметры: Mode: Access Point (точка доступа …" />
+  <meta name="twitter:description" content="В наборе HighROV имеется роутер, который раздаёт WiFi-сеть. Также через кабель к нему подключается основная плата. 1. Быстрая настройка Подключаем роутер к компьютеру через Ethernet-кабель. Заходим в панель по IP: 192.168.1.1. При первом включении роутера будет предложена быстрая настройка сети. Задаём параметры: Mode: Access Point (точка доступа …" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m"><img src="/media/mur-logo.png" alt="" />MUR OpenSource</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/pages/projects">Проекты</a>
+              <ol>
+                <li><a href="/pages/elementary-rov">ElementaryROV</a></li>
+                <li><a href="/pages/middle-rov">MiddleROV</a></li>
+                <li><a href="/pages/high-rov">HighROV</a></li>
+                <li><a href="/pages/open-thruster-150">OpenThruster 150</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Инструкции по настройке</a>
+              <ol>
+                <li><a href="/pages/firmware-rpi">Прошивка RPi Compute Module</a></li>
+                <li><a href="/pages/setting-up-midauv">MiddleAUV: настройка и тестирование</a></li>
+                <li><a href="/pages/protocol-mur">MiddleAUV: протокол</a></li>
+                <li><a href="/pages/highrov-router" id="m-navbar-current">HighROV: настройка роутера</a></li>
+                <li><a href="/pages/highrov-ota">HighROV: прошивка по WiFi</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Софт</a>
+              <ol>
+                <li><a href="/pages/building-mur-ide">Сборка MUR IDE</a></li>
+                <li><a href="/pages/building-mur-simulator">Сборка MUR Simulator</a></li>
+              </ol>
+            </li>
+            <li><a href="https://github.com/murproject">GitHub</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>Настройка роутера для HighROV</h1>
+<!-- content -->
+<p>В наборе HighROV имеется роутер, который раздаёт WiFi-сеть. Также через кабель к нему подключается основная плата.</p>
+<section class="section2" id="1"><h2>1. Быстрая настройка</h2>
+<p>Подключаем роутер к компьютеру через Ethernet-кабель. Заходим в панель по IP: <code>192.168.1.1</code>. При первом включении роутера будет предложена быстрая настройка сети. Задаём параметры:</p>
+<ul>
+<li>Mode: <code>Access Point</code> (точка доступа)</li>
+<li>SSID: <code>HighROV</code> (название сети),</li>
+<li>Password: <code>robocenter</code> (пароль сети),</li>
+<li>Admin password: <code>robocenter</code> (пароль админки роутера).</li>
+</ul>
+<p>Если быстрая настройка не была предложена, то эти параметры нужно указать в разделе <code>Wireless</code>.</p>
+</section><section class="section2" id="2-dhcp"><h2>2. DHCP</h2>
+<p>WiFi будет раздаваться, но для корректной работы аппарата с RovUI нужно также настроить параметры IP-адресов. Дело в том, что аппарату соответствует определенный IP, и телеметрия с управлением также привязаны к определённому адресу. Нужно всё настроить таким образом, чтобы компьютер получал адрес <code>192.168.1.4</code>, в то время как аппарат должен быть привязан к адресу <code>192.168.1.5</code>.</p>
+<p>В панели управления роутера заходим в <code>Network / LAN Settings</code>.</p>
+<p>На скриншоте показаны эталонные настройки, отдельно выделено то, что требует особого внимания:</p>
+<p><img alt="screenshot" src="/media/highrov-router/wifi1.png"></p>
+<ul>
+<li><code>IP Address: 192.168.1.1</code> - адрес роутера,</li>
+<li><code>DHCP: ON; DHCP Server</code> - включить автоматическое распределение IP-адресов,</li>
+<li><code>IP Address Pool: 192.168.1.4 - 192.168.1.10</code> - диапазон адресов, в пределах которого будут присваиваться IP-адреса. Первым будет присвоен 192.168.1.4, что соответствует компьютеру пользователя. Аппарату будет присвоен другой адрес, т.к. далее сделаем привязку по MAC,</li>
+<li><code>Default Gateway: 192.168.1.1</code> - шлюз (у нас это сам роутер).</li>
+</ul>
+<p>Далее нужно обеспечить привязку MAC-адреса аппарата к нужному IP-адресу. В секции Address Reservation доабвляем новое правило:</p>
+<p><img alt="screenshot" src="/media/highrov-router/wifi2.png"></p>
+<p>Устанавливаем настройки правила:</p>
+<p><img alt="screenshot" src="/media/highrov-router/wifi3.png"></p>
+<ul>
+<li><code>MAC Address: DEADBEEFFEED</code> - физический адрес основной платы аппарата (прописан в прошивке и одинаков для всех плат, если не менять прошивку),</li>
+<li><code>IP: 192.168.1.5</code> - соответствующий IP-адрес,</li>
+<li><code>Enable This Entry: ON</code> - не забываем включить правило.</li>
+</ul>
+</section><section class="section2" id="3-ip-wifi-"><h2>3. (Дополнительно) Задать IP для WiFi-модуля</h2>
+<p>Если прошивка HighROV предусматривает возможность перепрошивки по WiFi, то понадобится в роутере присвоить IP-адрес для WiFi-модуля ардуинки. Иначе, при подключении к WiFi он может получить не тот адрес.</p>
+<p>Добавляем новое правило Address Reservation, и нажимаем кнопку <code>Scan</code>. Если ардуинка подключена по WiFi, то будет видно устройство <code>arduino-…</code>. Его нужно добавить и присвоить IP-адрес <code>192.168.1.6</code></p>
+<p><img alt="screenshot" src="/media/highrov-router/wifi4.png"></p>
+<p>Если всё сделано правильно, то схема получается такой:</p>
+<ul>
+<li><code>192.168.1.4</code> - Компьютер/ноутбук пользователя</li>
+<li><code>192.168.1.5</code> - Ethernet-модуль Arduino Nano 33 IoT (для телеметрии и управления)</li>
+<li><code>192.168.1.6</code> - WiFi-модуль Arduino Nano 33 IoT (для обновления прошивки по WiFi)</li>
+</ul>
+<p><img alt="screenshot" src="/media/highrov-router/wifi5.png"></p>
+</section><section class="section2" id="_1"><h2>Итоги</h2>
+<p>Перед проверкой надо подключить плату HighROV к роутеру с помощью кабеля.</p>
+<p>Для проверки правильности работы следует проверить присваеваемый компьютеру IP-адрес, а также попинговать адрес платы <code>192.168.1.5</code>; а вообще неплохо будет запустить RovUI и попытаться посмотреть телеметрию, которую отправляет плата. Если вместо прочерков (<code>Крен: -</code>) указаны нули или другие значения (<code>Крен: 0</code>), то значит, что телеметрия идёт. Также можно нажать на кнопку <code>Начать запись</code>, если подключение есть, то счётчик записей будет увеличиваться.</p>
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>MUR</h3>
+        <ul>
+          <li><a href="https://murproject.com">Проект MUR</a></li>
+          <li><a href="https://robocenter.net/goods/kit/">Аппараты</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Документация</h3>
+        <ul>
+          <li><a href="https://github.com/murproject/mur_ide">MUR IDE</a></li>
+          <li><a href="https://github.com/murproject/mur_simulator">MUR Simulator</a></li>
+        </ul>
+      </div>
+      <div class="m-clearfix-t"></div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Ссылки</h3>
+        <ul>
+          <li><a href="https://github.com/murproject">GitHub</a></li>
+          <li><a href="https://www.youtube.com/channel/UCGRhAtYBi-XZ3U5LgmxXUfQ">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Робоцентр</h3>
+        <ul>
+          <li><a href="https://robocenter.org">Центр развития робототехники</a></li>
+          <li><a href="https://robocenter.net">Центр робототехники</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <!--
+        <div class="robot">
+            <div class="robot-main">
+                <div class="robot-part heart"><div class="back"></div></div>
+                <div class="robot-part shoulder-left"></div>
+                <div class="robot-part shoulder-right"></div>
+                <div class="robot-part arm-left"></div>
+                <div class="robot-part arm-right"></div>
+                <div class="robot-part body"></div>
+            </div>
+            <div class="robot-part head"></div>
+            <div class="robot-part leg-left"></div>
+            <div class="robot-part leg-right"></div>
+        </div>
+        -->
+
+        <a href="https://robocenter.org/"><img src="/media/robocenter-text.png"></a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

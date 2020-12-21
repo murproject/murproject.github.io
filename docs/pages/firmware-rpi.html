@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Прошивка RPi Compute Module | MUR OpenSource</title>
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/pages/firmware-rpi.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="MUR OpenSource" />
+  <meta property="og:title" content="Прошивка RPi Compute Module" />
+  <meta name="twitter:title" content="Прошивка RPi Compute Module" />
+  <meta property="og:url" content="/pages/firmware-rpi.html" />
+  <meta property="og:description" content="Введение В качестве бортового компьютера на аппаратах MiddleAUV и MiddleUSV применяется Raspberry Pi Compute Module. Этот модуль, внешне похожий на планку оперативной памяти, имеет встроенную Flash-память, куда и будет записывать образ прошивки. Слева на картинке - отладочная плата. Справа - сам RPi Compute Module. Ссылки на образы и необходимое ПО Образ для …" />
+  <meta name="twitter:description" content="Введение В качестве бортового компьютера на аппаратах MiddleAUV и MiddleUSV применяется Raspberry Pi Compute Module. Этот модуль, внешне похожий на планку оперативной памяти, имеет встроенную Flash-память, куда и будет записывать образ прошивки. Слева на картинке - отладочная плата. Справа - сам RPi Compute Module. Ссылки на образы и необходимое ПО Образ для …" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m"><img src="/media/mur-logo.png" alt="" />MUR OpenSource</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/pages/projects">Проекты</a>
+              <ol>
+                <li><a href="/pages/elementary-rov">ElementaryROV</a></li>
+                <li><a href="/pages/middle-rov">MiddleROV</a></li>
+                <li><a href="/pages/high-rov">HighROV</a></li>
+                <li><a href="/pages/open-thruster-150">OpenThruster 150</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Инструкции по настройке</a>
+              <ol>
+                <li><a href="/pages/firmware-rpi" id="m-navbar-current">Прошивка RPi Compute Module</a></li>
+                <li><a href="/pages/setting-up-midauv">MiddleAUV: настройка и тестирование</a></li>
+                <li><a href="/pages/protocol-mur">MiddleAUV: протокол</a></li>
+                <li><a href="/pages/highrov-router">HighROV: настройка роутера</a></li>
+                <li><a href="/pages/highrov-ota">HighROV: прошивка по WiFi</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Софт</a>
+              <ol>
+                <li><a href="/pages/building-mur-ide">Сборка MUR IDE</a></li>
+                <li><a href="/pages/building-mur-simulator">Сборка MUR Simulator</a></li>
+              </ol>
+            </li>
+            <li><a href="https://github.com/murproject">GitHub</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>Прошивка RPi Compute Module</h1>
+<!-- content -->
+<!-- __#TODO: нужно дать ссылки на образы прошивок и нужный софт__ -->
+
+<section class="section2" id="_1"><h2>Введение</h2>
+<p>В качестве бортового компьютера на аппаратах MiddleAUV и MiddleUSV применяется
+Raspberry Pi Compute Module. Этот модуль, внешне похожий на планку оперативной памяти,
+имеет встроенную Flash-память, куда и будет записывать образ прошивки.</p>
+<p><img alt="" src="/media/firmware-rpi/overview.jpg"></p>
+<p>Слева на картинке - отладочная плата. Справа - сам RPi Compute Module.</p>
+</section><section class="section2" id="_2"><h2>Ссылки на образы и необходимое ПО</h2>
+<ul>
+<li><a href="https://yadi.sk/d/TXavPwErRHBKcg">Образ для MiddleAUV</a> (<code>mur-auv-software</code>)</li>
+<li><a href="https://yadi.sk/d/XTlshffIK5B6fQ">Образ для MiddleUSV</a> (<code>usv-server</code>) <!-- надо сократить размер образа --></li>
+<li><code>usbboot</code> - <a href="https://github.com/raspberrypi/usbboot">исходный код</a>, <a href="https://yadi.sk/d/TZd48nW0k0CXfw">готовая сборка под GNU/Linux</a></li>
+</ul>
+</section><section class="section2" id="_3"><h2>Инструкция</h2>
+<blockquote>
+<p>В качестве альтернативы, можно обратиться к  <a href="https://www.raspberrypi.org/documentation/hardware/computemodule/cm-emmc-flashing.md">официальной инструкции Raspberry Pi</a>.
+Ниже описана инструкция для окружения GNU/Linux.</p>
+</blockquote>
+<ol>
+<li>
+<p>Установить модуль в отладочную плату.</p>
+<p><img alt="" src="/media/firmware-rpi/module-installed.jpg"></p>
+</li>
+<li>
+<p>Можно использовать любой компьютер с GNU/Linux, где имеется нужный софт.</p>
+<p>Рассмотрим пример с Intel NUC. Нужно запустить Intel NUC,
+также можно и подключить его к локальной сети для управления по ssh:
+<code>ssh nuc@nuc.local</code>, логин - <code>nuc</code>, пароль - <code>nuc</code>.
+Альтернатива - подключить к NUC дисплей, клавиатуру и мышь, после чего
+использовать как десктоп.</p>
+</li>
+<li>
+<p>Подключить MicroUSB кабель к разъёму передачи данных (USB Slave),
+    но не подключать питание.</p>
+<p><img alt="" src="/media/firmware-rpi/1-before-flashing.jpg"></p>
+</li>
+<li>
+<p>Проверим, какие дисковые разделы у нас имеются на данный момент:</p>
+<div class="highlight"><pre><span></span><code><span class="err">nuc@nuc:~/Raspberry/usbboot$ ls /dev/sd*</span>
+<span class="err">/dev/sda  /dev/sda1  /dev/sda2  /dev/sda5</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Запускаем <code>rpiboot</code> от имени <code>root</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="err">nuc@nuc:~/Raspberry/usbboot$ sudo ./rpiboot</span>
+<span class="err">Waiting for BCM2835/6/7/2711...</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>После появления надписи <code>Waiting for BCM2835/6/7/2711...</code> можно подавать питание:</p>
+<p><img alt="" src="/media/firmware-rpi/2-power.jpg"></p>
+</li>
+<li>
+<p>В нормальной ситуации должен быть следующий вывод в консоли:</p>
+<div class="highlight"><pre><span></span><code><span class="err">Waiting for BCM2835/6/7/2711...</span>
+<span class="err">Sending bootcode.bin</span>
+<span class="err">Successful read 4 bytes</span>
+<span class="err">Waiting for BCM2835/6/7/2711...</span>
+<span class="err">Second stage boot server</span>
+<span class="err">File read: start.elf</span>
+<span class="err">Second stage boot server done</span>
+</code></pre></div>
+
+</li>
+<li>
+<p>Проверим, что флеш-память модуля видна в <code>/etc/dev/</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="err">nuc@nuc:~/Raspberry/usbboot$ ls /dev/sd*</span>
+<span class="err">/dev/sda  /dev/sda1  /dev/sda2  /dev/sda5  /dev/sdb</span>
+</code></pre></div>
+
+<p>Видно, что появилось новое устройство <code>/dev/sdb</code>.</p>
+</li>
+<li>
+<p>Теперь можно загружать прошивку.</p>
+<p>Необходимо ввести команду <code>sudo dd if=образ.img of=/dev/sdX status=progres</code>,
+где <code>образ.img</code> - путь к образу прошивки, а <code>/dev/sdX</code> - устройство, которое
+ранее появилось после загрузки модуля.</p>
+<p>Пример:</p>
+<div class="highlight"><pre><span></span><code><span class="err">nuc@nuc:~/Raspberry/usbboot$ sudo dd if=mur_emmc.img of=/dev/sdb status=progress</span>
+<span class="err">3277496832 bytes (3.3 GB, 3.1 GiB) copied, 1644 s, 2.0 MB/s</span>
+<span class="err">6403209+0 records in</span>
+<span class="err">6403209+0 records out</span>
+<span class="err">3278443008 bytes (3.3 GB, 3.1 GiB) copied, 1646.21 s, 2.0 MB/s</span>
+</code></pre></div>
+
+<p>Это займёт некоторое время. В конце, если всё нормально, должны быть видны
+разделы <code>/dev/sdb1</code> и <code>/dev/sdb2</code>. На скриншоте приведена вся последовательность
+команд для успешной прошивки:</p>
+<p><img alt="" src="/media/firmware-rpi/screenshot.png"></p>
+</li>
+<li>
+<p>После успешной прошивки не помешает провести тестовый запуск платы.</p>
+<p>Отключаем все USB-кабели. Втыкаем HDMI-кабель от монитора и USB-клавиатуру,
+а затем подключаем питание (без USB Slave, его не надо подключать).</p>
+<p><img alt="" src="/media/firmware-rpi/3-test-boot.jpg"></p>
+<p>Первый запуск скорее всего будет долгим (из-за расширения файловой системы),
+возможна перезагрузка - это нормально. Также является <strong>нормальным</strong> сообщение
+об ошибке запуска сервиса <code>MUR service</code>.</p>
+<p><img alt="" src="/media/firmware-rpi/boot-log.jpg"></p>
+<p>Если удалось выполнить вход в систему (логин - <code>pi</code>, пароль - <code>raspberry</code>),
+то всё нормально.</p>
+</li>
+</ol>
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>MUR</h3>
+        <ul>
+          <li><a href="https://murproject.com">Проект MUR</a></li>
+          <li><a href="https://robocenter.net/goods/kit/">Аппараты</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Документация</h3>
+        <ul>
+          <li><a href="https://github.com/murproject/mur_ide">MUR IDE</a></li>
+          <li><a href="https://github.com/murproject/mur_simulator">MUR Simulator</a></li>
+        </ul>
+      </div>
+      <div class="m-clearfix-t"></div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Ссылки</h3>
+        <ul>
+          <li><a href="https://github.com/murproject">GitHub</a></li>
+          <li><a href="https://www.youtube.com/channel/UCGRhAtYBi-XZ3U5LgmxXUfQ">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Робоцентр</h3>
+        <ul>
+          <li><a href="https://robocenter.org">Центр развития робототехники</a></li>
+          <li><a href="https://robocenter.net">Центр робототехники</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <!--
+        <div class="robot">
+            <div class="robot-main">
+                <div class="robot-part heart"><div class="back"></div></div>
+                <div class="robot-part shoulder-left"></div>
+                <div class="robot-part shoulder-right"></div>
+                <div class="robot-part arm-left"></div>
+                <div class="robot-part arm-right"></div>
+                <div class="robot-part body"></div>
+            </div>
+            <div class="robot-part head"></div>
+            <div class="robot-part leg-left"></div>
+            <div class="robot-part leg-right"></div>
+        </div>
+        -->
+
+        <a href="https://robocenter.org/"><img src="/media/robocenter-text.png"></a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

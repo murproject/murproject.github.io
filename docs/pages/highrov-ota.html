@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Прошивка платы HighROV по WiFi | MUR OpenSource</title>
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/pages/highrov-ota.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="MUR OpenSource" />
+  <meta property="og:title" content="Прошивка платы HighROV по WiFi" />
+  <meta name="twitter:title" content="Прошивка платы HighROV по WiFi" />
+  <meta property="og:url" content="/pages/highrov-ota.html" />
+  <meta property="og:description" content="Установка необходимых библиотек Сначала необходимо установить поддержку платы Arduino NANO 33 IoT. Для этого выбираем пункт меню Инструменты / Плата: … / Менеджер плат. Необходимо установить пакет Arduino SAMD Board (32-bits ARM Cortex-M0+). Далее необходимо установить в Arduino IDE некоторые нужные библиотеки, это можено сделать выбрав пункт меню Скетч / Подключить библиотеку / Управлять библиотеками …" />
+  <meta name="twitter:description" content="Установка необходимых библиотек Сначала необходимо установить поддержку платы Arduino NANO 33 IoT. Для этого выбираем пункт меню Инструменты / Плата: … / Менеджер плат. Необходимо установить пакет Arduino SAMD Board (32-bits ARM Cortex-M0+). Далее необходимо установить в Arduino IDE некоторые нужные библиотеки, это можено сделать выбрав пункт меню Скетч / Подключить библиотеку / Управлять библиотеками …" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m"><img src="/media/mur-logo.png" alt="" />MUR OpenSource</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/pages/projects">Проекты</a>
+              <ol>
+                <li><a href="/pages/elementary-rov">ElementaryROV</a></li>
+                <li><a href="/pages/middle-rov">MiddleROV</a></li>
+                <li><a href="/pages/high-rov">HighROV</a></li>
+                <li><a href="/pages/open-thruster-150">OpenThruster 150</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Инструкции по настройке</a>
+              <ol>
+                <li><a href="/pages/firmware-rpi">Прошивка RPi Compute Module</a></li>
+                <li><a href="/pages/setting-up-midauv">MiddleAUV: настройка и тестирование</a></li>
+                <li><a href="/pages/protocol-mur">MiddleAUV: протокол</a></li>
+                <li><a href="/pages/highrov-router">HighROV: настройка роутера</a></li>
+                <li><a href="/pages/highrov-ota" id="m-navbar-current">HighROV: прошивка по WiFi</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Софт</a>
+              <ol>
+                <li><a href="/pages/building-mur-ide">Сборка MUR IDE</a></li>
+                <li><a href="/pages/building-mur-simulator">Сборка MUR Simulator</a></li>
+              </ol>
+            </li>
+            <li><a href="https://github.com/murproject">GitHub</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>Прошивка платы HighROV по WiFi</h1>
+<!-- content -->
+<section class="section2" id="_1"><h2>Установка необходимых библиотек</h2>
+<p>Сначала необходимо установить поддержку платы Arduino NANO 33 IoT. Для этого выбираем пункт меню <code>Инструменты / Плата: … / Менеджер плат</code>. Необходимо установить пакет <code>Arduino SAMD Board (32-bits ARM Cortex-M0+)</code>.</p>
+<p>Далее необходимо установить в Arduino IDE некоторые нужные библиотеки, это можено сделать выбрав пункт меню <code>Скетч / Подключить библиотеку / Управлять библиотеками</code> (или сочетание клавиш <code>Ctrl+Shift+I</code>)</p>
+<p>Самое главное, что необходимо установить - библиотека <code>Arduino OTA</code>. Рекомендуется ознакомится с <a href="https://github.com/jandrassy/ArduinoOTA">документацией по данной библиотеке</a>.</p>
+<p>Помимо этого рекомендуется также установить и другие библиотеки, требуемые для сборки прошивки HighROV:</p>
+<ul>
+<li><code>BlueRobotics MS5837</code></li>
+<li><code>Arduino LSM6DS3</code></li>
+<li><code>Adafruit PWM Servo Driver</code></li>
+<li><code>Ethernet2</code></li>
+<li><code>WiFiNINA</code></li>
+</ul>
+</section><section class="section2" id="_2"><h2>Файлы конфигурации</h2>
+<p>Необходимо поместить два файла конфигурации в директорию, где расположен пакет <code>Arduino SAMD Board</code>. Данный путь может различаться на разных системах и версиях. Например, это может быть <code>C:\Users\Username\AppData\Local\Arduino15\packages\arduino\hardware\samd\1.8.9</code></p>
+<p>Сначала нужно закрыть все окна Arduino IDE. Затем в данную директорию нужно положить два файла (с перезаписью существующих, но стоит сначала сделать резервную копию), скачивание по ссылкам:</p>
+<ul>
+<li><a href="/media/highrov-ota/platform.local.txt">platform.local.txt</a></li>
+<li><a href="/media/highrov-ota/programmers.txt">programmers.txt</a></li>
+</ul>
+<p><img alt="screenshot" src="/media/highrov-ota/arduino-configs.png"></p>
+</section><section class="section2" id="_3"><h2>Прошивка</h2>
+<p>Для прошивки выбираем плату <code>Arduino NANO 33 IoT</code>, а также нужно выбрать программатор <code>Arduino OTA SAMD (192.168.1.6)</code></p>
+<p><img alt="screenshot" src="/media/highrov-ota/choose-programmer.png"></p>
+<p>Загрузку прошивки необходимо производить с помощью функции <code>Скетч \ Загрузить через программатор</code>.</p>
+<p><img alt="screenshot" src="/media/highrov-ota/flash-firmware.png"></p>
+<p>Пароль по умолчанию - <code>1</code>. Он может отличаться у тех проишвок, которые будут загружены пользователем.</p>
+<p><img alt="screenshot" src="/media/highrov-ota/success.png"></p>
+<p>Обратите внимание:</p>
+<ul>
+<li>Загружаемые прошивки должны использовать ArduinoOTA для проверки обновлений, иначе последующие обновления по WiFi станут невозможны.</li>
+<li>В случае проблем с прошивкой по WiFi: проверьте подключение к сети, попробуйте перезагрузить плату, полностью выключить питание пульта управления (роутера и платы HighROV) и включить заново. Устройство <code>192.168.1.6</code> должно быть доступно по сети и откликаться на <code>ping</code>, но только если функционал обновления по WiFi включён в прошивку, которая записана на микроконтроллер.</li>
+</ul>
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>MUR</h3>
+        <ul>
+          <li><a href="https://murproject.com">Проект MUR</a></li>
+          <li><a href="https://robocenter.net/goods/kit/">Аппараты</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Документация</h3>
+        <ul>
+          <li><a href="https://github.com/murproject/mur_ide">MUR IDE</a></li>
+          <li><a href="https://github.com/murproject/mur_simulator">MUR Simulator</a></li>
+        </ul>
+      </div>
+      <div class="m-clearfix-t"></div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Ссылки</h3>
+        <ul>
+          <li><a href="https://github.com/murproject">GitHub</a></li>
+          <li><a href="https://www.youtube.com/channel/UCGRhAtYBi-XZ3U5LgmxXUfQ">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Робоцентр</h3>
+        <ul>
+          <li><a href="https://robocenter.org">Центр развития робототехники</a></li>
+          <li><a href="https://robocenter.net">Центр робототехники</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <!--
+        <div class="robot">
+            <div class="robot-main">
+                <div class="robot-part heart"><div class="back"></div></div>
+                <div class="robot-part shoulder-left"></div>
+                <div class="robot-part shoulder-right"></div>
+                <div class="robot-part arm-left"></div>
+                <div class="robot-part arm-right"></div>
+                <div class="robot-part body"></div>
+            </div>
+            <div class="robot-part head"></div>
+            <div class="robot-part leg-left"></div>
+            <div class="robot-part leg-right"></div>
+        </div>
+        -->
+
+        <a href="https://robocenter.org/"><img src="/media/robocenter-text.png"></a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Сборка MUR IDE в Windows | MUR OpenSource</title>
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/pages/building-mur-ide.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="MUR OpenSource" />
+  <meta property="og:title" content="Сборка MUR IDE в Windows" />
+  <meta name="twitter:title" content="Сборка MUR IDE в Windows" />
+  <meta property="og:url" content="/pages/building-mur-ide.html" />
+  <meta property="og:description" content="Обратите внимание, что инструкции могут различаться в зависимости от используемых инструментов, окружения и версий софта. Сборка будет происходить в Visual Studio 2019 с компилятором MSVC. Аналогично можно и собрать, к примеру, с использованием Qt Creator и MinGW. Подготовка Необходимо, чтобы были установлены: CMake Git Visual Studio, если он будет использоваться …" />
+  <meta name="twitter:description" content="Обратите внимание, что инструкции могут различаться в зависимости от используемых инструментов, окружения и версий софта. Сборка будет происходить в Visual Studio 2019 с компилятором MSVC. Аналогично можно и собрать, к примеру, с использованием Qt Creator и MinGW. Подготовка Необходимо, чтобы были установлены: CMake Git Visual Studio, если он будет использоваться …" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m"><img src="/media/mur-logo.png" alt="" />MUR OpenSource</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/pages/projects">Проекты</a>
+              <ol>
+                <li><a href="/pages/elementary-rov">ElementaryROV</a></li>
+                <li><a href="/pages/middle-rov">MiddleROV</a></li>
+                <li><a href="/pages/high-rov">HighROV</a></li>
+                <li><a href="/pages/open-thruster-150">OpenThruster 150</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Инструкции по настройке</a>
+              <ol>
+                <li><a href="/pages/firmware-rpi">Прошивка RPi Compute Module</a></li>
+                <li><a href="/pages/setting-up-midauv">MiddleAUV: настройка и тестирование</a></li>
+                <li><a href="/pages/protocol-mur">MiddleAUV: протокол</a></li>
+                <li><a href="/pages/highrov-router">HighROV: настройка роутера</a></li>
+                <li><a href="/pages/highrov-ota">HighROV: прошивка по WiFi</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Софт</a>
+              <ol>
+                <li><a href="/pages/building-mur-ide">Сборка MUR IDE</a></li>
+                <li><a href="/pages/building-mur-simulator">Сборка MUR Simulator</a></li>
+              </ol>
+            </li>
+            <li><a href="https://github.com/murproject">GitHub</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>Сборка MUR IDE в Windows</h1>
+<!-- content -->
+<p>Обратите внимание, что инструкции могут различаться в зависимости от используемых инструментов, окружения и версий софта. Сборка будет происходить в <strong>Visual Studio 2019</strong> с компилятором <strong>MSVC</strong>. Аналогично можно и собрать, к примеру, с использованием Qt Creator и MinGW.</p>
+<section class="section2" id="_1"><h2>Подготовка</h2>
+<ul>
+<li>
+<p>Необходимо, чтобы были установлены:</p>
+<ul>
+<li>CMake</li>
+<li>Git</li>
+<li>Visual Studio, если он будет использоваться (кстати, есть <a href="https://doc.qt.io/archives/vs-addin/index.html">Qt Visual Studio Add-in</a>)</li>
+</ul>
+</li>
+<li>
+<p>Про переменные CMake, которые надо будет указывать:</p>
+<ul>
+<li>В основном это пути к библиотекам, и они будут зависеть от того, <strong>где устанавливались или собирались библиотеки.</strong> То есть, данные пути будут разными для конкретного окружения. <strong>Указанные здесь пути даны лишь для примера.</strong></li>
+<li>Самый простой способ задать переменные CMake - указывать их прямо в файле <code>CMakeLists.txt</code>, который лежит в корне проекта (добавив строчку вида <code>set(LIB_DIR DIR_PATH)</code>). При этом, не стоит коммитить в репозиторий такие изменения сборочной конфигурации, где жёстко прописаны пути, которые актуальны лишь для вашего окружения.</li>
+<li>А лучше воспользоваться локальными настройками, это можно сделать в Visual Studio (<code>Project / Cmake Settings for...</code>), так и в Qt Creator (<code>Projects / Build / CMake</code>) через графические конфигураторы. Тогда изменения будут сохраняться в отдельный пользовательский конфиг (например CMakeLists.txt.user или CMakeSettings.json). Такой вариант предпочтительнее, но можно делать как удобнее.</li>
+</ul>
+</li>
+</ul>
+</section><section class="section2" id="vcpkg"><h2>Про vcpkg</h2>
+<ul>
+<li>Для загрузки, сборки и установки библиотек (ZeroMQ, OpenCV, Qt) можно воспользоваться пакетным менеджером <a href="https://docs.microsoft.com/ru-ru/cpp/build/vcpkg?view=msvc-160">vcpkg</a>. Это может быть удобнее: не нужно скачивать и собирать каждую библиотеку, не нужно прописывать пути и всё будет делаться одной командой. Но при этом нужно помнить, что при такой установке все библиотеки будут собираться с нуля. В то же время, Qt и OpenCV предоставляют готовые сборки для Windows. Так что решение остаётся за вами.</li>
+<li>Установка:<ul>
+<li><code>git clone https://github.com/Microsoft/vcpkg</code></li>
+<li><code>cd vcpkg; ./bootstrap-vcpkg.bat</code></li>
+<li><code>./vcpkg integrate install</code> - после этого все установленные библиотеки (теоретически) должны автоматически подхватываться при сборке, и не нужно будет указывать пути к библиотекам.</li>
+</ul>
+</li>
+<li>Пример использования: <code>./vcpkg install zeromq:x64-windows</code> (надо не забывать про <code>:x64-windows</code>)</li>
+</ul>
+</section><section class="section2" id="opencv"><h2>OpenCV</h2>
+<ul>
+<li>Важно, чтобы была включена поддержка ffmpeg.</li>
+<li>Можно установить дистрибутив с <a href="https://opencv.org/releases/">сайта OpenCV</a> или же собрать через vcpkg.</li>
+<li>Указываем для CMake путь к OpenCV, если ставили готовую сборку:<ul>
+<li><code>set(OpenCV_DIR "D:/projects/opencv/build")</code></li>
+</ul>
+</li>
+</ul>
+</section><section class="section2" id="qt-5"><h2>Qt 5</h2>
+<ul>
+<li>Теоретически можно установить из vcpkg, но это довольно долго и больно. Вместо этого, можно воспользоваться готовым дистрибутивом.</li>
+<li>Загружаем дистрибутив Qt 5 с <a href="https://qt.io/">qt.io</a></li>
+<li>Устанавливаем Qt (при установке нужно выбрать также компонент Qt WebEngine).</li>
+<li>Внимательно смотрим на выбираемый компилятор: если собирать через MSVC - то он должен быть установлен (например, вместе с Visual Studio). Если сборка будет через MinGW (пример, в Qt Creator), то нужно не забыть выбрать в установщике и сам компилятор MinGW. Также надо выбрать соответствующую сборку Qt для конкретного компилятора.</li>
+<li>Возможно, потребуется указать путь к Qt:<ul>
+<li><code>set(CMAKE_PREFIX_PATH "C:/Qt/5.15.1/msvc2019_64")</code></li>
+</ul>
+</li>
+</ul>
+</section><section class="section2" id="_2"><h2>Собираем проект</h2>
+<ul>
+<li>Клонируем и открываем проект <a href="https://github.com/murproject/mur_ide">MUR IDE</a> в Visual Studio: <code>File / Open / CMake -&gt; mur_ide/CMakeLists.txt</code></li>
+<li>Собираем. Внимательно смотрим на возникающие ошибки, возможно где-то не был прописан правильный путь к некой библиотеке.</li>
+<li>В Qt есть один нужный нам инструмент - <code>windeployqt.exe</code>, который автоматически копирует требуемые библиотеки Qt, необходимые для запуска. Путь к этой программе зависит от компилятора и версии Qt, например это может быть <code>C:\Qt\5.15.1\msvc2019_64\bin</code>. Открываем командную строку (кстати, после установки Qt из дистрибутива, в меню "пуск" появляется пункт вида <code>Qt 5.15.1 (MSVC 2019 64-bit)</code>, который открывает консоль сразу в нужной директории). Команда будет иметь примерно следующий вид:<ul>
+<li><code>windeployqt.exe --qmldir "D:\projects\mur_ide\resources" "D:\projects\mur_ide\build\mur_ide.exe"</code></li>
+<li>Обратите внимание на пути. Нужно указать аргумент <code>--qmldir</code> и для него путь к ресурам (чтобы скопировались нужные QML-компоненты, иначе не заработает), а также путь к собранному бинарнику.</li>
+</ul>
+</li>
+<li>Также может потребоваться скопировать библиотеки OpenCV и ZeroMQ. Это будет зависеть от их способа установки и наличия в <code>PATH</code>. Достаточно читать сообщения об ошибках, чтобы стало понятно какие ещё библиотеки требуется положить рядом с бинарником.</li>
+<li>Нужно скопировать содержимое директории <code>resources</code> из исходников в такую же директорию рядом с собранным бинарником (обычно эту папку создаёт <code>windeployqt</code>).</li>
+</ul>
+<p>Далее: <strong><a href="building-mur-simulator">Сборка MUR Simulator</a></strong></p>
+<!--
+
+## TODO
+
+- На данный момент получается так, что IDE и Simulator тащат вместе с собой свои копии библиотек (например, присутствует по два экземпляра библиотек Qt и OpenCV). Хотелось бы это исправить или как-то улучшить.
+- Можно попробовать задействовать [фишку CMake - FetchContent](https://cmake.org/cmake/help/latest/module/FetchContent.html) для подтягивания и сборки библиотек, в том числе с нужными параметрами.
+- Может автоматически запускать `windeployqt` из CMake?
+
+-->
+
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>MUR</h3>
+        <ul>
+          <li><a href="https://murproject.com">Проект MUR</a></li>
+          <li><a href="https://robocenter.net/goods/kit/">Аппараты</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Документация</h3>
+        <ul>
+          <li><a href="https://github.com/murproject/mur_ide">MUR IDE</a></li>
+          <li><a href="https://github.com/murproject/mur_simulator">MUR Simulator</a></li>
+        </ul>
+      </div>
+      <div class="m-clearfix-t"></div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Ссылки</h3>
+        <ul>
+          <li><a href="https://github.com/murproject">GitHub</a></li>
+          <li><a href="https://www.youtube.com/channel/UCGRhAtYBi-XZ3U5LgmxXUfQ">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Робоцентр</h3>
+        <ul>
+          <li><a href="https://robocenter.org">Центр развития робототехники</a></li>
+          <li><a href="https://robocenter.net">Центр робототехники</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <!--
+        <div class="robot">
+            <div class="robot-main">
+                <div class="robot-part heart"><div class="back"></div></div>
+                <div class="robot-part shoulder-left"></div>
+                <div class="robot-part shoulder-right"></div>
+                <div class="robot-part arm-left"></div>
+                <div class="robot-part arm-right"></div>
+                <div class="robot-part body"></div>
+            </div>
+            <div class="robot-part head"></div>
+            <div class="robot-part leg-left"></div>
+            <div class="robot-part leg-right"></div>
+        </div>
+        -->
+
+        <a href="https://robocenter.org/"><img src="/media/robocenter-text.png"></a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

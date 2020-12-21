@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8" />
+  <title>Настройка и тестирование MiddleAUV | MUR OpenSource</title>
+  <link rel="stylesheet" href="/static/m-dark.css" />
+  <link rel="canonical" href="/pages/setting-up-midauv.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+  <meta property="og:site_name" content="MUR OpenSource" />
+  <meta property="og:title" content="Настройка и тестирование MiddleAUV" />
+  <meta name="twitter:title" content="Настройка и тестирование MiddleAUV" />
+  <meta property="og:url" content="/pages/setting-up-midauv.html" />
+  <meta property="og:description" content="Введение Подключение к аппарату WiFi Ethernet Проверка работы прошивки и подключенной периферии Скрипт автоматической проверки Ручное тестирование и настройка Подключённые устройства mur service Конфигурация прошивки Испытания Телеметрия Светодиодная лента Движители Режим телеуправления (геймпад и камеры) Испытания в воде, регуляторы по глубине и курсу Финал Типичные неисправности Введение Здесь описано всё …" />
+  <meta name="twitter:description" content="Введение Подключение к аппарату WiFi Ethernet Проверка работы прошивки и подключенной периферии Скрипт автоматической проверки Ручное тестирование и настройка Подключённые устройства mur service Конфигурация прошивки Испытания Телеметрия Светодиодная лента Движители Режим телеуправления (геймпад и камеры) Испытания в воде, регуляторы по глубине и курсу Финал Типичные неисправности Введение Здесь описано всё …" />
+  <meta name="twitter:card" content="summary" />
+  <meta property="og:type" content="page" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="/" id="m-navbar-brand" class="m-col-t-9 m-col-m-none m-left-m"><img src="/media/mur-logo.png" alt="" />MUR OpenSource</a>
+      <a id="m-navbar-show" href="#navigation" title="Show navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <a id="m-navbar-hide" href="#" title="Hide navigation" class="m-col-t-3 m-hide-m m-text-right"></a>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-12 m-col-m-none">
+            <li>
+              <a href="/pages/projects">Проекты</a>
+              <ol>
+                <li><a href="/pages/elementary-rov">ElementaryROV</a></li>
+                <li><a href="/pages/middle-rov">MiddleROV</a></li>
+                <li><a href="/pages/high-rov">HighROV</a></li>
+                <li><a href="/pages/open-thruster-150">OpenThruster 150</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Инструкции по настройке</a>
+              <ol>
+                <li><a href="/pages/firmware-rpi">Прошивка RPi Compute Module</a></li>
+                <li><a href="/pages/setting-up-midauv" id="m-navbar-current">MiddleAUV: настройка и тестирование</a></li>
+                <li><a href="/pages/protocol-mur">MiddleAUV: протокол</a></li>
+                <li><a href="/pages/highrov-router">HighROV: настройка роутера</a></li>
+                <li><a href="/pages/highrov-ota">HighROV: прошивка по WiFi</a></li>
+              </ol>
+            </li>
+            <li>
+              <a href="/pages/docs">Софт</a>
+              <ol>
+                <li><a href="/pages/building-mur-ide">Сборка MUR IDE</a></li>
+                <li><a href="/pages/building-mur-simulator">Сборка MUR Simulator</a></li>
+              </ol>
+            </li>
+            <li><a href="https://github.com/murproject">GitHub</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main>
+<article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>Настройка и тестирование MiddleAUV</h1>
+<!-- content -->
+<p><img alt="MiddleAUV" src="/media/setting-up-midauv/midauv.jpg"></p>
+<div class="toc">
+<ul>
+<li><a href="#_1">Введение</a></li>
+<li><a href="#_2">Подключение к аппарату</a><ul>
+<li><a href="#wifi">WiFi</a></li>
+<li><a href="#ethernet">Ethernet</a></li>
+</ul>
+</li>
+<li><a href="#_3">Проверка работы прошивки и подключенной периферии</a><ul>
+<li><a href="#_4">Скрипт автоматической проверки</a></li>
+<li><a href="#_5">Ручное тестирование и настройка</a><ul>
+<li><a href="#_6">Подключённые устройства</a></li>
+<li><a href="#mur-service">mur service</a></li>
+<li><a href="#_7">Конфигурация прошивки</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_8">Испытания</a><ul>
+<li><a href="#_9">Телеметрия</a></li>
+<li><a href="#_10">Светодиодная лента</a></li>
+<li><a href="#_11">Движители</a></li>
+<li><a href="#_12">Режим телеуправления (геймпад и камеры)</a></li>
+<li><a href="#_13">Испытания в воде, регуляторы по глубине и курсу</a></li>
+<li><a href="#_14">Финал</a></li>
+</ul>
+</li>
+<li><a href="#_15">Типичные неисправности</a></li>
+</ul>
+</div>
+<section class="section1" id="_1"><h1>Введение</h1>
+<p>Здесь описано всё необходимое для настройки и полного тестирования аппаратов MiddleAUV. Понадобится компьютер (при тестировании в аквариуме - желательно ноутбук) с установленным MUR IDE.</p>
+<blockquote>
+<p>Если в ходе тестирования возникло подозрение, что присутствует аппаратная проблема, то надо обратиться к инженеру-электронищку.</p>
+</blockquote>
+</section><section class="section1" id="_2"><h1>Подключение к аппарату</h1>
+<p>Есть два варианта подключения: по <strong>WiFi</strong> или по <strong>Ethernet-кабелю</strong>. При тестировании нужно проверить на работоспособность <strong>оба способа подключения</strong>.</p>
+<p>В любом случае, после успешного подключения аппарат будет доступен по IP-адресу <code>10.3.141.1</code>. Для подключения к нему по <code>ssh</code>: логин - <code>pi</code>, пароль - <code>raspberry</code></p>
+<blockquote>
+<p>Рекомендуется изучить: <a href="https://wiki.archlinux.org/index.php/OpenSSH_(Русский)">SSH</a></p>
+</blockquote>
+<section class="section2" id="wifi"><h2>WiFi</h2>
+<p>Спустя некоторое время после включения аппарата (придётся немного подождать) будет доступна WiFi-сеть <code>mur_ssid</code>, пароль - <code>vladivostok</code>. Беспроводное подключение годится для испытаний на суше, но не подходит при погружении в воду.</p>
+</section><section class="section2" id="ethernet"><h2>Ethernet</h2>
+<p>Необходим специальный кабель, один конец которого подключается к аппарату (<strong>не забываем надёжно закрутить</strong>, во избежание попадания воды), а на другом конце располагается обычный Ethernet, который можно воткнуть в компьютер.</p>
+</section></section><section class="section1" id="_3"><h1>Проверка работы прошивки и подключенной периферии</h1>
+<p>У прошивки <code>mur-auv-software</code> есть особенность: сервис может не запуститься, если отсутствует некоторая важная для работы периферия (например, некий датчик). Из-за этого иногда трудно понять в чём дело, когда есть подключение к сети аппарата, но нет связи с ним в MUR IDE.</p>
+<p>Чтобы решить проблемы и проверить подключение периферии можно воспользоваться скриптом, которого будет достаточно в большинстве случаев, или же можно сделать всё вручную.</p>
+<section class="section2" id="_4"><h2>Скрипт автоматической проверки</h2>
+<p><a href="https://robocenter.net/media/middleauv/mur-auto-test.zip">Скрипт <code>mur-auto-test</code></a> выполняет подключение к аппарату по SSH и производит несколько проверок.</p>
+<ol>
+<li>
+<p>На Windows нужно запустить <code>run-mur-test.bat</code> (проверялось на свежих версиях Windows 10, где доступен встроенный клиент OpenSSH: <a href="https://winitpro.ru/index.php/2020/01/22/vstroennyj-ssh-klient-windows/">подробнее о SSH на Windows 10</a>), если же на компьютере GNU/Linux, то надо запустить скрипт <code>run-mur-test.sh</code>.</p>
+</li>
+<li>
+<p>Потребуется ввести пароль - <code>raspberry</code>. При этом <strong>вводимые символы будут скрыты</strong>, это нормально.</p>
+</li>
+<li>
+<p>Возможно появится сообщение о необходимости перезагрузки:</p>
+<div class="highlight"><pre><span></span><code><span class="err">### WARNING ### Fixing config!</span>
+<span class="err">### WARNING ### Please, restart!</span>
+</code></pre></div>
+
+<p>В таком случае следует отключить питание аппарата и включить заново.</p>
+<blockquote>
+<p>Подробнее об вносимых в конфигурацию изменениях сказано в следующем разделе.</p>
+</blockquote>
+</li>
+<li>
+<p>Скрипт автоматически производит проверки и выводит результаты. Если всё нормально, то у каждого пункта проверки будет статус <code>OK</code>, а в случае ошибок будут видны сообщения <code>### ERROR ###</code> и это требует исправления. В первую очередь нужно проверить подключение устройств, возможны также и неполадки с конкретным и устройствами (например, бракованный датчик).</p>
+<p><img alt="" src="/media/setting-up-midauv/auto-test.png"></p>
+<p>Возможные ошибки:</p>
+<ul>
+<li>
+<p><code>MUR Service IS NOT RUNNING</code> - ошибка запуска основной программы прошивки. Как правило, это связано с отсутствием требуемой периферии. Треубется проверить остальные ошибки.</p>
+</li>
+<li>
+<p><code>SERIAL DEVICE ttyUSBX is missing</code> - отсутствует устройство, подключенное по UART. Обязательно должен присутствовать <code>/dev/ttyUSB1</code> - это навигационно-пилотажный датчик.</p>
+</li>
+<li>
+<p><code>CAMERA X is missing</code> - отсутствует камера.</p>
+</li>
+<li>
+<p><code>I2C DEVICE (i2c-3) is missing</code> - нет I2C-устройства, оно отвечает за передачу состояния батареи.</p>
+</li>
+<li>
+<p><code>USB ETHERNET DEVICE is missing</code> - отсутствует Ethernet-адаптер, подключённый по USB.</p>
+</li>
+<li>
+<p><code>ETHERNET is NOT UP</code> - Ethernet-сеть не работает.</p>
+</li>
+<li>
+<p><code>WIFI is NOT UP</code> - WiFi-сеть не работает.</p>
+</li>
+</ul>
+<p>Если по всем пунктам всё <code>OK</code>, то с аппаратом должна работать связь через MUR IDE.</p>
+</li>
+</ol>
+</section><section class="section2" id="_5"><h2>Ручное тестирование и настройка</h2>
+<blockquote>
+<p>Приветствуется наличие базовых навыков работы с GNU/Linux и консолью. Можно обратиться к <a href="https://losst.ru/administrirovanie-linux">различным урокам</a>.</p>
+</blockquote>
+<section class="section3" id="_6"><h3>Подключённые устройства</h3>
+<p>Всё, что проделывается скриптом, можно сделать и вручную. Основное - это проверка наличия устройств в <code>/dev</code>. Например, командой <code>ls /dev/ttyUSB*</code> можно посмотреть все устройства, путь к которым соответствует заданной маске.</p>
+<ul>
+<li><code>ls /dev/ttyUSB*</code> - проверка UART-устройств, должны присутствовать <code>ttyUSB0</code> и <code>ttyUSB1</code>.</li>
+<li><code>ls /dev/i2c*</code> - проверка I2C (должен быть <code>i2c-3</code>)</li>
+<li><code>ls /dev/video*</code> - проверка камер (ожидается наличие <code>video0</code> и <code>video1</code>)</li>
+</ul>
+<p>С помощью <code>lsusb</code> можно посмотреть устройства, подключенные по USB, а командой <code>ifconfig</code> проверить состояние сети.</p>
+<p>Используя эти команды можно диагностировать причины, по которым не работает прошивка или отсутствуют некоторые показатели телеметрии.</p>
+<p>Отдельно можно проверить из консоли навигационно-пилотажный датчик, для этого следует собрать <a href="https://github.com/hipnuc/products/tree/master/examples/Ubuntu">данный пример</a> (или воспользоваться <a href="https://robocenter.net/media/middleauv/rpi-uranus">собранным под RPi бинарником</a>.</p>
+</section><section class="section3" id="mur-service"><h3>mur service</h3>
+<blockquote>
+<p>Рекомендуется изучить: <a href="https://wiki.archlinux.org/index.php/Systemd_(Русский)">systemd</a></p>
+</blockquote>
+<p>Основная программа прошивки (<code>mur-auv-software</code>) запускается через systemd-сервиc <code>mur</code>.</p>
+<ul>
+<li><code>sudo service mur status</code> - проверить состояние (запущен или нет)</li>
+<li><code>sudo service mur restart</code> - перезапустить сервис. Можно сделать именно так вместо полной перезагрузки всего устройства, если пришлось что-то подправить в конфиге.</li>
+</ul>
+</section><section class="section3" id="_7"><h3>Конфигурация прошивки</h3>
+<p>Путь к основному конфигу - <code>/etc/mur/config.ini</code>. Для редактирования можно использовать редактор nano, например - <code>sudo nano /etc/mur/config.ini</code>, при этом не забывая редактировать с админскими правами.</p>
+<p>Наиболее важные (и проблемные) места в конфиге (после редактирования надо не забыть перезапустить сервис <code>mur</code> или перезагрузить аппарат):</p>
+<ul>
+<li>
+<p><code>"IMU_DEVICE": "/dev/ttyUSB3",</code> - путь к навигационно-пилотажному датчику, сразу заменяем на <code>/dev/ttyUSB1</code>.</p>
+</li>
+<li>
+<p><code>DIR_MULS</code> - направления движителей (это коэффициенты умножения - если умножаем на минус, то движитель будет крутиться в обратную сторону). Если при испытании робот, например, <strong>погружается вместо всплытия</strong> то надо исправить коэффициенты. Скорее всего, правильной будет такая конфигурация (первый и четвёртый - вертикальные, второй и третий - маршевые):</p>
+<div class="highlight"><pre><span></span><code><span class="err">&quot;DIR_MULS&quot;: [</span>
+<span class="err">    -1,</span>
+<span class="err">    -1,</span>
+<span class="err">    1,</span>
+<span class="err">    1,</span>
+<span class="err">    1,</span>
+<span class="err">    1</span>
+<span class="err">],</span>
+</code></pre></div>
+
+</li>
+</ul>
+</section></section></section><section class="section1" id="_8"><h1>Испытания</h1>
+<p>Для проведения испытаний нужно подключиться к аппарату по сети (см. пункт "Подключение к аппарату"), также должен быть запущен MUR IDE. Наличие зелёного значка ракеты в верхнем левом углу говорит об успешном подключении.</p>
+<p><img alt="" src="/media/setting-up-midauv/mur-ide.png"></p>
+<blockquote>
+<p>Также нужно помнить о важной особенности:</p>
+<p><strong>При нулевом уровне заряда, скрипты на аппарате выполняться не будут!</strong></p>
+</blockquote>
+<p>Для открытия встроенных скриптов в MUR IDE, надо выбрать пункт меню <code>Help / Examples</code>.</p>
+<section class="section2" id="_9"><h2>Телеметрия</h2>
+<blockquote>
+<p>Нужно проверить, что <strong>телеметрия передаётся и датчики исправны</strong></p>
+</blockquote>
+<p>Когда MUR IDE успешно подключен к аппарату, можно посмотреть телеметрию, нажав на кнопку <code>(i)</code> в правом верхнем углу.</p>
+<p>Особенно нужно обратить внимание на навигационно-пилотажный датчик (значения <code>yaw, pitch, roll</code>). В полном покое они не должны аномально увеличиваться или уменьшаться (бывает, что неисправный датчик "плывёт" на месте, будто бы аппарат постоянно вращается). Можно покрутить аппарат и посмотреть на изменения значений. Достаточно на глаз проверить адекватность поступающих значений.</p>
+<p>Проверить датчик давления можно, сильно зажав его пальцем, после чего значение <code>depth</code> должно поменяться.</p>
+<p>Также стоит обратить внимание на индикатор заряда. Если точно известно, что аппарат совсем недавно был полностью заряжен, то нулевое значение должно вызвать подозрения.</p>
+</section><section class="section2" id="_10"><h2>Светодиодная лента</h2>
+<blockquote>
+<p>Нужно проверить, что <strong>все светодиоды исправны</strong></p>
+</blockquote>
+<p>Для проверки светодиодов есть встроенный скрипт <code>auv_led.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">auv</span><span class="p">.</span><span class="n">set_rgb_color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span> <span class="o">#</span> <span class="err">синий</span> <span class="p">(</span><span class="n">rgB</span><span class="p">)</span>
+<span class="k">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">auv</span><span class="p">.</span><span class="n">set_rgb_color</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">#</span> <span class="err">зеленый</span> <span class="p">(</span><span class="n">rGb</span><span class="p">)</span>
+<span class="k">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">auv</span><span class="p">.</span><span class="n">set_rgb_color</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">#</span> <span class="err">красный</span> <span class="p">(</span><span class="n">Rgb</span><span class="p">)</span>
+<span class="k">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Типичные неисправности, требуемые ремонта:</p>
+<ul>
+<li>наличие светодиодов, которые не могут отобразить определённый цвет или вообще не горят (поэтому надо внимательно визуально проверять работоспособность <strong>всех</strong> светодиодов).</li>
+<li>постороннее частое мерцание светодиодной ленты, когда это не предусмотрено кодом.</li>
+</ul>
+</section><section class="section2" id="_11"><h2>Движители</h2>
+<blockquote>
+<p>Нужно проверить, что <strong>все моторы работают</strong></p>
+</blockquote>
+<p>Для проверки моторов можно воспользоваться встроенным скриптом <code>auv_motors_test.py</code>, который на короткое время подаст тягу на все 4 движителя. Надо обратить внимание, что работают <strong>все движители!</strong></p>
+</section><section class="section2" id="_12"><h2>Режим телеуправления (геймпад и камеры)</h2>
+<blockquote>
+<p>Нужно проверить, что <strong>работает передача видео и управление геймпадом</strong></p>
+</blockquote>
+<p>Если в MUR IDE нажать на значок геймпада, то будет включён режим телеуправления:</p>
+<ul>
+<li>на вкладке <code>Remote</code> будет отображаться изображение с камер,</li>
+<li>станет возможным управлять аппаратом с помощью геймпада,</li>
+<li>можно будет включить регулятоыр по курсу и глубине.</li>
+</ul>
+<p>При проверке изображения с камер надо учесть, что приемлимая частота кадров обеспечивается лишь при проводном подключении к аппарату. При беспроводном подключении, наблюдается "дёрганая картинка", также есть задержки при передаче команд на аппарат - WiFi-сеть сильно перегружается при передаче видео с аппарата. Поэтому при подключении по WiFi лучше проверять камеры в последнюю очередь.</p>
+</section><section class="section2" id="_13"><h2>Испытания в воде, регуляторы по глубине и курсу</h2>
+<blockquote>
+<p>Нужно проверить, что <strong>конфигурация движителей в прошивке корректна и регуляторы работают</strong></p>
+</blockquote>
+<p>Проводить испытания в воде стоит при подключённом проводном соединении с аппаратом.</p>
+<p>Опустив аппарат в воду и включив режим телеупралвения можно начать управлять им с геймпада. Нужно учесть, что из-за разницы между разными геймпадами, может понадобиться дополнительная настройка осей (<code>Settings / Gamepad</code>). Стоит проверить соответствие управления ожиданиям, включая повороты.</p>
+<p>На вкладке <code>Remote</code> находятся кнопки регуляторов:</p>
+<ul>
+<li>
+<p><code>Auto Yaw</code> - регулятор по курсу. Включив регулятор, аппарат будет пытаться сохранить определённый курс. Курс задаётся геймпадом. Можно попробовать рукой повернуть робота в аквариуме, и он должен возвращаться в определенное положение. Если он неадекватно разворачивается, то возможно надо разобраться с направлениями движителей (см. <code>DIR_MULS</code> в конфиге).</p>
+</li>
+<li>
+<p><code>Auto Depth</code> - регулятор по глубине. Аппарат будет пытаться сохранять определённую глубину, которая также задаётся геймпадом. Можно попробовать "утопить" аппарат рукой, и он должен подняться на прежний уровень. Если вместо поднятия он лишь сильнее погружается, значит надо исправить в конфиге направления движителей.</p>
+</li>
+</ul>
+<p>Аналогично можно ещё и запустить проверку скриптами <code>auv_depth_preg</code> и <code>auv_yaw_preg</code> (но это уже не режим телеуправления).</p>
+<p>Чтобы проверить работоспособность <code>OpenCV</code> на аппарате, можно попробовать вывести в консоль версию OpenCV (не забыв создать новый файл вместо перезаписи примера):</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="k">print</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</code></pre></div>
+
+</section><section class="section2" id="_14"><h2>Финал</h2>
+<p>Если всё хорошо, то вынимаем аппарат из воды, не забывая пользоваться сухими салфетками, надо следить, чтобы вода не попала внутрь разъёма.</p>
+<p>После всех тестов можно зайти по SSH и очистить историю запущенных команд в консоли:
+<code>history -c</code></p>
+<p>Отмечаем в таблице "Тестирование MUR" пункты, которые попадают в нашу зону ответственности.</p>
+</section></section><section class="section1" id="_15"><h1>Типичные неисправности</h1>
+<ul>
+<li>
+<p><em>Всё работает (загрузка кода, управление с геймпада) но нет изорабжения с камер. При этом, камеры точно подключены (присутствуют <code>/dev/camera0</code> и <code>/dev/camera1</code>).</em></p>
+<ul>
+<li>Возможно, соединение блокирует файрвол (брандмауэр, сетевой экран и прочее антивирусное ПО). Можно попробовать отключить встроенный брандмауэр Windows и отключить антивирус. Если помогло - значит, надо добавить исключение для MUR IDE. Кстати, при первом запуске MUR IDE на Windows как правило возникает запрос на предосталвение доступа к сети.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><em>На аппарате не работает запуск скриптов, а также управление с геймпада. При этом прошивка работает и телеметрия передаётся.</em></p>
+<ul>
+<li>Проверьте уровень заряда батареи. При достижении нуля, отключается возможность запуска скриптов и управления движителями.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><em>Робот погружается, когда надо всплывать или поворачивает не в ту сторону.</em></p>
+<ul>
+<li>См. конфигурирование прошивки.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><em>Полностью чёрное изображение с камеры.</em></p>
+<ul>
+<li>Проверье, что с камер снята защитная крышка.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><em>Некоторые странные проблемы с аппаратом могут быть связаны с модулем Raspberry Pi:</em></p>
+<ul>
+<li>Например, возникла ситуация, когда на аппарате не работал один разъём для движка, и это удалось решить лишь заменой модуля RPi.</li>
+<li>Или другой случай: аномально нестабильный WiFi удалось побороть повторной прошивкой.</li>
+<li>Не исключена и ситуация, когда во время прошивки что-то идёт не так, и при записи происходит ошибка - однажды был замечен "сломанный" исполняемый файл, что также было решено перепрошивкой.</li>
+</ul>
+</li>
+</ul>
+</section>
+<!-- /content -->
+      </div>
+    </div>
+  </div>
+</article>
+</main>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>MUR</h3>
+        <ul>
+          <li><a href="https://murproject.com">Проект MUR</a></li>
+          <li><a href="https://robocenter.net/goods/kit/">Аппараты</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Документация</h3>
+        <ul>
+          <li><a href="https://github.com/murproject/mur_ide">MUR IDE</a></li>
+          <li><a href="https://github.com/murproject/mur_simulator">MUR Simulator</a></li>
+        </ul>
+      </div>
+      <div class="m-clearfix-t"></div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Ссылки</h3>
+        <ul>
+          <li><a href="https://github.com/murproject">GitHub</a></li>
+          <li><a href="https://www.youtube.com/channel/UCGRhAtYBi-XZ3U5LgmxXUfQ">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="m-col-s-3 m-col-t-6">
+        <h3>Робоцентр</h3>
+        <ul>
+          <li><a href="https://robocenter.org">Центр развития робототехники</a></li>
+          <li><a href="https://robocenter.net">Центр робототехники</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <!--
+        <div class="robot">
+            <div class="robot-main">
+                <div class="robot-part heart"><div class="back"></div></div>
+                <div class="robot-part shoulder-left"></div>
+                <div class="robot-part shoulder-right"></div>
+                <div class="robot-part arm-left"></div>
+                <div class="robot-part arm-right"></div>
+                <div class="robot-part body"></div>
+            </div>
+            <div class="robot-part head"></div>
+            <div class="robot-part leg-left"></div>
+            <div class="robot-part leg-right"></div>
+        </div>
+        -->
+
+        <a href="https://robocenter.org/"><img src="/media/robocenter-text.png"></a>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>
