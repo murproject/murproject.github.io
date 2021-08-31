@@ -35,6 +35,16 @@ Slug: setting-up-midauv
 
 ## Скрипт автоматической проверки
 
+> ### Внимание!
+>
+> Данный скрипт предназначен только для проверки аппаратов MiddleAUV **CM3**.
+> Его **не&nbsp;следует запускать с аппаратами серии CM4!**
+>
+> Если у вас MiddleAUV CM4, то вы можете получить информацию об ошибках,
+> посмотрев логи сервиса `mur`, выполнив команду: `sudo journalctl -u mur`
+>
+> В случае проблем, вы можете направить вопросы по адресу [support@robocenter.org](mailto:support@robocenter.org)
+
 [Скрипт `mur-auto-test`](https://robocenter.net/media/middleauv/mur-auto-test.zip) выполняет подключение к аппарату по SSH и производит несколько проверок.
 
 1.  На Windows нужно запустить `run-mur-test.bat` (проверялось на свежих версиях Windows 10, где доступен встроенный клиент OpenSSH: [подробнее о SSH на Windows 10](https://winitpro.ru/index.php/2020/01/22/vstroennyj-ssh-klient-windows/)), если же на компьютере GNU/Linux, то надо запустить скрипт `run-mur-test.sh`.
